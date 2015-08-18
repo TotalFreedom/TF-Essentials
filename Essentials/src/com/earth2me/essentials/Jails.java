@@ -1,11 +1,6 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.storage.AsyncStorageObjectHolder;
-import java.io.File;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.ess3.api.IEssentials;
 import net.ess3.api.IUser;
 import org.bukkit.Bukkit;
@@ -28,8 +23,15 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.PluginManager;
 
-public class Jails extends AsyncStorageObjectHolder<com.earth2me.essentials.settings.Jails> implements net.ess3.api.IJails {
+import java.io.File;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Jails extends AsyncStorageObjectHolder<com.earth2me.essentials.settings.Jails> implements net.ess3.api.IJails {
     private static final transient Logger LOGGER = Bukkit.getLogger();
     private static transient boolean enabled = false;
 
@@ -78,8 +80,7 @@ public class Jails extends AsyncStorageObjectHolder<com.earth2me.essentials.sett
     public Location getJail(final String jailName) throws Exception {
         acquireReadLock();
         try {
-            if (getData().getJails() == null || jailName == null
-                    || !getData().getJails().containsKey(jailName.toLowerCase(Locale.ENGLISH))) {
+            if (getData().getJails() == null || jailName == null || !getData().getJails().containsKey(jailName.toLowerCase(Locale.ENGLISH))) {
                 throw new Exception(tl("jailNotExist"));
             }
             Location loc = getData().getJails().get(jailName.toLowerCase(Locale.ENGLISH));
@@ -154,8 +155,8 @@ public class Jails extends AsyncStorageObjectHolder<com.earth2me.essentials.sett
         }
     }
 
-    private class JailListener implements Listener {
 
+    private class JailListener implements Listener {
         @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
         public void onJailBlockBreak(final BlockBreakEvent event) {
             final User user = ess.getUser(event.getPlayer());

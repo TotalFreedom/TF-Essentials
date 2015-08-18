@@ -1,10 +1,11 @@
 package com.earth2me.essentials.storage;
 
-import java.util.Map.Entry;
 import org.bukkit.enchantments.Enchantment;
 
-public class EnchantmentLevel implements Entry<Enchantment, Integer> {
+import java.util.Map.Entry;
 
+
+public class EnchantmentLevel implements Entry<Enchantment, Integer> {
     private Enchantment enchantment;
     private int level;
 
@@ -55,8 +56,7 @@ public class EnchantmentLevel implements Entry<Enchantment, Integer> {
     public boolean equals(final Object obj) {
         if (obj instanceof Entry) {
             final Entry entry = (Entry) obj;
-            if (entry.getKey() instanceof Enchantment
-                    && entry.getValue() instanceof Integer) {
+            if (entry.getKey() instanceof Enchantment && entry.getValue() instanceof Integer) {
                 final Enchantment enchant = (Enchantment) entry.getKey();
                 final Integer lvl = (Integer) entry.getValue();
                 return this.enchantment.equals(enchant) && this.level == lvl.intValue();

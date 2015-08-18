@@ -1,17 +1,19 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
-import java.util.*;
 import org.bukkit.Server;
 import org.bukkit.WeatherType;
 import org.bukkit.entity.Player;
 
-public class Commandpweather extends EssentialsCommand {
+import java.util.*;
 
-    public static final Set<String> getAliases = new HashSet<String>();
-    public static final Map<String, WeatherType> weatherAliases = new HashMap<String, WeatherType>();
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandpweather extends EssentialsCommand {
+    public static final Set<String> getAliases = new HashSet<>();
+    public static final Map<String, WeatherType> weatherAliases = new HashMap<>();
 
     static {
         getAliases.add("get");
@@ -111,7 +113,7 @@ public class Commandpweather extends EssentialsCommand {
      * Used to parse an argument of the type "users(s) selector"
      */
     private Set<User> getUsers(final Server server, final CommandSource sender, final String selector) throws Exception {
-        final Set<User> users = new TreeSet<User>(new UserNameComparator());
+        final Set<User> users = new TreeSet<>(new UserNameComparator());
         // If there is no selector we want the sender itself. Or all users if sender isn't a user.
         if (selector == null) {
             if (sender.isPlayer()) {
@@ -134,12 +136,14 @@ public class Commandpweather extends EssentialsCommand {
 
         if (user != null) {
             users.add(user);
-        } // If that fails, Is the argument something like "*" or "all"?
+        }
+        // If that fails, Is the argument something like "*" or "all"?
         else if (selector.equalsIgnoreCase("*") || selector.equalsIgnoreCase("all")) {
             for (User u : ess.getOnlineUsers()) {
                 users.add(u);
             }
-        } // We failed to understand the world target...
+        }
+        // We failed to understand the world target...
         else {
             throw new PlayerNotFoundException();
         }

@@ -4,13 +4,14 @@ import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.FormatUtil;
 import com.earth2me.essentials.utils.StringUtil;
+import net.ess3.api.IEssentials;
+
 import java.io.*;
 import java.lang.ref.SoftReference;
 import java.util.*;
-import net.ess3.api.IEssentials;
+
 
 public class TextInput implements IText {
-
     private static final HashMap<String, SoftReference<TextInput>> cache = new HashMap<String, SoftReference<TextInput>>();
     private final transient List<String> lines;
     private final transient List<String> chapters;

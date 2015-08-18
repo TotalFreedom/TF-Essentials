@@ -1,15 +1,16 @@
 package com.earth2me.essentials.storage;
 
 import com.earth2me.essentials.IConf;
-import java.io.File;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.logging.Level;
 import net.ess3.api.IEssentials;
 import net.ess3.api.IReload;
 import org.bukkit.Bukkit;
 
-public abstract class AsyncStorageObjectHolder<T extends StorageObject> implements IConf, IStorageObjectHolder<T>, IReload {
+import java.io.File;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.logging.Level;
 
+
+public abstract class AsyncStorageObjectHolder<T extends StorageObject> implements IConf, IStorageObjectHolder<T>, IReload {
     private transient T data;
     private final transient ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     private final transient Class<T> clazz;
@@ -78,8 +79,8 @@ public abstract class AsyncStorageObjectHolder<T extends StorageObject> implemen
 
     public abstract File getStorageFile();
 
-    private class StorageObjectDataWriter extends AbstractDelayedYamlFileWriter {
 
+    private class StorageObjectDataWriter extends AbstractDelayedYamlFileWriter {
         StorageObjectDataWriter() {
             super(ess, getStorageFile());
         }
@@ -97,8 +98,8 @@ public abstract class AsyncStorageObjectHolder<T extends StorageObject> implemen
         }
     }
 
-    private class StorageObjectDataReader extends AbstractDelayedYamlFileReader<T> {
 
+    private class StorageObjectDataReader extends AbstractDelayedYamlFileReader<T> {
         StorageObjectDataReader() {
             super(ess, getStorageFile(), clazz);
         }

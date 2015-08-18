@@ -2,8 +2,8 @@ package com.earth2me.essentials.textreader;
 
 import java.util.*;
 
-public class SimpleTextInput implements IText {
 
+public class SimpleTextInput implements IText {
     private final transient List<String> lines = new ArrayList<String>();
 
     public SimpleTextInput(final String input) {

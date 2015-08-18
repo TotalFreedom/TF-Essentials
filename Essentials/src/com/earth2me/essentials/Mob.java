@@ -1,19 +1,19 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static com.earth2me.essentials.I18n.tl;
+
 
 // Suffixes can be appended on the end of a mob name to make it plural
 // Entities without a suffix, will default to 's'
 public enum Mob {
-
     CHICKEN("Chicken", Enemies.FRIENDLY, EntityType.CHICKEN),
     COW("Cow", Enemies.FRIENDLY, EntityType.COW),
     CREEPER("Creeper", Enemies.ENEMY, EntityType.CREEPER),
@@ -32,7 +32,6 @@ public enum Mob {
     CAVESPIDER("CaveSpider", Enemies.ENEMY, EntityType.CAVE_SPIDER),
     ENDERMAN("Enderman", Enemies.ENEMY, "", EntityType.ENDERMAN),
     SILVERFISH("Silverfish", Enemies.ENEMY, "", EntityType.SILVERFISH),
-    ENDERDRAGON("EnderDragon", Enemies.ENEMY, EntityType.ENDER_DRAGON),
     VILLAGER("Villager", Enemies.FRIENDLY, EntityType.VILLAGER),
     BLAZE("Blaze", Enemies.ENEMY, EntityType.BLAZE),
     MUSHROOMCOW("MushroomCow", Enemies.FRIENDLY, EntityType.MUSHROOM_COW),
@@ -40,7 +39,6 @@ public enum Mob {
     SNOWMAN("Snowman", Enemies.FRIENDLY, "", EntityType.SNOWMAN),
     OCELOT("Ocelot", Enemies.NEUTRAL, EntityType.OCELOT),
     IRONGOLEM("IronGolem", Enemies.NEUTRAL, EntityType.IRON_GOLEM),
-    WITHER("Wither", Enemies.ENEMY, EntityType.WITHER),
     BAT("Bat", Enemies.FRIENDLY, EntityType.BAT),
     WITCH("Witch", Enemies.ENEMY, EntityType.WITCH),
     BOAT("Boat", Enemies.NEUTRAL, EntityType.BOAT),
@@ -52,24 +50,26 @@ public enum Mob {
     MINECART_MOB_SPAWNER("SpawnerMinecart", Enemies.NEUTRAL, EntityType.MINECART_MOB_SPAWNER),
     ENDERCRYSTAL("EnderCrystal", Enemies.NEUTRAL, EntityType.ENDER_CRYSTAL),
     EXPERIENCEORB("ExperienceOrb", Enemies.NEUTRAL, EntityType.EXPERIENCE_ORB),
-    RABBIT("Rabbit", Enemies.FRIENDLY, EntityType.RABBIT),
+    ARMOR_STAND("ArmorStand", Enemies.NEUTRAL, EntityType.ARMOR_STAND),
     ENDERMITE("Endermite", Enemies.ENEMY, EntityType.ENDERMITE),
     GUARDIAN("Guardian", Enemies.ENEMY, EntityType.GUARDIAN),
-    ARMOR_STAND("ArmorStand", Enemies.NEUTRAL, EntityType.ARMOR_STAND);
+    RABBIT("Rabbit", Enemies.FRIENDLY, EntityType.RABBIT);
+
     public static final Logger logger = Logger.getLogger("Essentials");
 
-    private Mob(String n, Enemies en, String s, EntityType type) {
+    Mob(String n, Enemies en, String s, EntityType type) {
         this.suffix = s;
         this.name = n;
         this.type = en;
         this.bukkitType = type;
     }
 
-    private Mob(String n, Enemies en, EntityType type) {
+    Mob(String n, Enemies en, EntityType type) {
         this.name = n;
         this.type = en;
         this.bukkitType = type;
     }
+
     public String suffix = "s";
     final public String name;
     final public Enemies type;
@@ -89,23 +89,32 @@ public enum Mob {
     }
 
     public Entity spawn(final World world, final Server server, final Location loc) throws MobException {
-        final Entity entity = world.spawn(loc, (Class<? extends Entity>) this.bukkitType.getEntityClass());
+        final Entity entity = world.spawn(loc, this.bukkitType.getEntityClass());
         if (entity == null) {
             logger.log(Level.WARNING, tl("unableToSpawnMob"));
             throw new MobException();
         }
+		if (entity.getType().equals(EntityType.ENDER_DRAGON)) {
+            logger.log(Level.WARNING, tl("unableToSpawnMob"));
+            throw new MobException();
+		}
+		if (entity.getType().equals(EntityType.WITHER)) {
+            logger.log(Level.WARNING, tl("unableToSpawnMob"));
+            throw new MobException();
+		}
         return entity;
     }
 
-    public enum Enemies {
 
+    public enum Enemies {
         FRIENDLY("friendly"),
         NEUTRAL("neutral"),
         ENEMY("enemy");
 
-        private Enemies(final String type) {
+        Enemies(final String type) {
             this.type = type;
         }
+
         final protected String type;
     }
 
@@ -121,8 +130,8 @@ public enum Mob {
         return bukkitMap.get(type);
     }
 
-    public static class MobException extends Exception {
 
+    public static class MobException extends Exception {
         private static final long serialVersionUID = 1L;
     }
 }

@@ -1,15 +1,17 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.LocationUtil;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.util.Locale;
 import org.bukkit.Location;
 import org.bukkit.Server;
 
-public class Commandsethome extends EssentialsCommand {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandsethome extends EssentialsCommand {
     public Commandsethome() {
         super("sethome");
     }

@@ -1,10 +1,11 @@
 package com.earth2me.essentials.perm;
 
-import java.util.List;
 import org.bukkit.entity.Player;
 
-public interface IPermissionsHandler {
+import java.util.List;
 
+
+public interface IPermissionsHandler {
     String getGroup(Player base);
 
     List<String> getGroups(Player base);
@@ -18,4 +19,6 @@ public interface IPermissionsHandler {
     String getPrefix(Player base);
 
     String getSuffix(Player base);
+
+    boolean tryProvider();
 }

@@ -1,22 +1,22 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+
+import static com.earth2me.essentials.I18n.tl;
+
 
 public class Commandnear extends EssentialsCommand {
-
     public Commandnear() {
         super("near");
     }
 
     @Override
     protected void run(final Server server, final User user, final String commandLabel, final String[] args) throws Exception {
-        long maxRadius = ess.getSettings().getChatRadius();
+        long maxRadius = ess.getSettings().getNearRadius();
 
         if (maxRadius == 0) {
             maxRadius = 200;

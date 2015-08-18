@@ -3,8 +3,8 @@ package com.earth2me.essentials.commands;
 import com.earth2me.essentials.User;
 import org.bukkit.Server;
 
-public class Commandenderchest extends EssentialsCommand {
 
+public class Commandenderchest extends EssentialsCommand {
     public Commandenderchest() {
         super("enderchest");
     }

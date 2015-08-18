@@ -1,17 +1,19 @@
 package com.earth2me.essentials.textreader;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.ess3.api.IEssentials;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-public class HelpInput implements IText {
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class HelpInput implements IText {
     private static final String DESCRIPTION = "description";
     private static final String PERMISSION = "permission";
     private static final String PERMISSIONS = "permissions";
@@ -45,9 +47,7 @@ public class HelpInput implements IText {
 
                 for (Map.Entry<String, Map<String, Object>> k : cmds.entrySet()) {
                     try {
-                        if (!match.equalsIgnoreCase("") && (!pluginNameLow.contains(match)) && (!k.getKey().toLowerCase(Locale.ENGLISH).contains(match))
-                                && (!(k.getValue().get(DESCRIPTION) instanceof String
-                                && ((String) k.getValue().get(DESCRIPTION)).toLowerCase(Locale.ENGLISH).contains(match)))) {
+                        if (!match.equalsIgnoreCase("") && (!pluginNameLow.contains(match)) && (!k.getKey().toLowerCase(Locale.ENGLISH).contains(match)) && (!(k.getValue().get(DESCRIPTION) instanceof String && ((String) k.getValue().get(DESCRIPTION)).toLowerCase(Locale.ENGLISH).contains(match)))) {
                             continue;
                         }
 

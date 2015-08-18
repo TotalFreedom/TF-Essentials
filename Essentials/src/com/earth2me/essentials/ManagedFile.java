@@ -1,6 +1,8 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
+import net.ess3.api.IEssentials;
+import org.bukkit.Bukkit;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
@@ -11,11 +13,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
-import net.ess3.api.IEssentials;
-import org.bukkit.Bukkit;
+
+import static com.earth2me.essentials.I18n.tl;
+
 
 public class ManagedFile {
-
     private static final int BUFFERSIZE = 1024 * 8;
     private final transient File file;
 

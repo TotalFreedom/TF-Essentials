@@ -1,39 +1,29 @@
 package com.earth2me.essentials.api;
 
-import com.earth2me.essentials.EssentialsConf;
 import com.earth2me.essentials.EssentialsUserConf;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.User;
-import static com.earth2me.essentials.api.Economy.add;
-import static com.earth2me.essentials.api.Economy.divide;
-import static com.earth2me.essentials.api.Economy.format;
-import static com.earth2me.essentials.api.Economy.getMoneyExact;
-import static com.earth2me.essentials.api.Economy.hasEnough;
-import static com.earth2me.essentials.api.Economy.hasLess;
-import static com.earth2me.essentials.api.Economy.hasMore;
-import static com.earth2me.essentials.api.Economy.multiply;
-import static com.earth2me.essentials.api.Economy.setMoney;
-import static com.earth2me.essentials.api.Economy.substract;
 import com.earth2me.essentials.utils.NumberUtil;
 import com.earth2me.essentials.utils.StringUtil;
 import com.google.common.base.Charsets;
+import net.ess3.api.IEssentials;
+import net.ess3.api.MaxMoneyException;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.ess3.api.IEssentials;
-import net.ess3.api.MaxMoneyException;
+
 
 /**
  * Instead of using this api directly, we recommend to use the register plugin: http://bit.ly/RegisterMethod
  */
 public class Economy {
-
     public Economy() {
     }
+
     private static final Logger logger = Logger.getLogger("Essentials");
     private static IEssentials ess;
     private static final String noCallBeforeLoad = "Essentials API is called before Essentials is loaded.";
@@ -81,7 +71,9 @@ public class Economy {
      * Returns the balance of a user
      *
      * @param name Name of the user
+     *
      * @return balance
+     *
      * @throws UserDoesNotExistException
      */
     @Deprecated
@@ -100,10 +92,11 @@ public class Economy {
     /**
      * Sets the balance of a user
      *
-     * @param name Name of the user
+     * @param name    Name of the user
      * @param balance The balance you want to set
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
-     * @throws NoLoanPermittedException If the user is not allowed to have a negative balance
+     * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     @Deprecated
     public static void setMoney(String name, double balance) throws UserDoesNotExistException, NoLoanPermittedException {
@@ -136,10 +129,11 @@ public class Economy {
     /**
      * Adds money to the balance of a user
      *
-     * @param name Name of the user
+     * @param name   Name of the user
      * @param amount The money you want to add
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
-     * @throws NoLoanPermittedException If the user is not allowed to have a negative balance
+     * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     @Deprecated
     public static void add(String name, double amount) throws UserDoesNotExistException, NoLoanPermittedException {
@@ -159,10 +153,11 @@ public class Economy {
     /**
      * Substracts money from the balance of a user
      *
-     * @param name Name of the user
+     * @param name   Name of the user
      * @param amount The money you want to substract
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
-     * @throws NoLoanPermittedException If the user is not allowed to have a negative balance
+     * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     @Deprecated
     public static void subtract(String name, double amount) throws UserDoesNotExistException, NoLoanPermittedException {
@@ -182,10 +177,11 @@ public class Economy {
     /**
      * Divides the balance of a user by a value
      *
-     * @param name Name of the user
+     * @param name  Name of the user
      * @param value The balance is divided by this value
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
-     * @throws NoLoanPermittedException If the user is not allowed to have a negative balance
+     * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     @Deprecated
     public static void divide(String name, double amount) throws UserDoesNotExistException, NoLoanPermittedException {
@@ -205,10 +201,11 @@ public class Economy {
     /**
      * Multiplies the balance of a user by a value
      *
-     * @param name Name of the user
+     * @param name  Name of the user
      * @param value The balance is multiplied by this value
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
-     * @throws NoLoanPermittedException If the user is not allowed to have a negative balance
+     * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     @Deprecated
     public static void multiply(String name, double amount) throws UserDoesNotExistException, NoLoanPermittedException {
@@ -229,8 +226,9 @@ public class Economy {
      * Resets the balance of a user to the starting balance
      *
      * @param name Name of the user
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
-     * @throws NoLoanPermittedException If the user is not allowed to have a negative balance
+     * @throws NoLoanPermittedException  If the user is not allowed to have a negative balance
      */
     public static void resetBalance(String name) throws UserDoesNotExistException, NoLoanPermittedException {
         if (ess == null) {
@@ -241,9 +239,11 @@ public class Economy {
     }
 
     /**
-     * @param name Name of the user
+     * @param name   Name of the user
      * @param amount The amount of money the user should have
+     *
      * @return true, if the user has more or an equal amount of money
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
      */
     @Deprecated
@@ -261,9 +261,11 @@ public class Economy {
     }
 
     /**
-     * @param name Name of the user
+     * @param name   Name of the user
      * @param amount The amount of money the user should have
+     *
      * @return true, if the user has more money
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
      */
     @Deprecated
@@ -281,9 +283,11 @@ public class Economy {
     }
 
     /**
-     * @param name Name of the user
+     * @param name   Name of the user
      * @param amount The amount of money the user should not have
+     *
      * @return true, if the user has less money
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
      */
     @Deprecated
@@ -304,7 +308,9 @@ public class Economy {
      * Test if the user has a negative balance
      *
      * @param name Name of the user
+     *
      * @return true, if the user has a negative balance
+     *
      * @throws UserDoesNotExistException If a user by that name does not exists
      */
     public static boolean isNegative(String name) throws UserDoesNotExistException {
@@ -315,6 +321,7 @@ public class Economy {
      * Formats the amount of money like all other Essentials functions. Example: $100000 or $12345.67
      *
      * @param amount The amount of money
+     *
      * @return Formatted money
      */
     @Deprecated
@@ -338,6 +345,7 @@ public class Economy {
      * Test if a player exists to avoid the UserDoesNotExistException
      *
      * @param name Name of the user
+     *
      * @return true, if the user exists
      */
     public static boolean playerExists(String name) {
@@ -348,7 +356,9 @@ public class Economy {
      * Test if a player is a npc
      *
      * @param name Name of the player
+     *
      * @return true, if it's a npc
+     *
      * @throws UserDoesNotExistException
      */
     public static boolean isNPC(String name) throws UserDoesNotExistException {
@@ -363,6 +373,7 @@ public class Economy {
      * Creates dummy files for a npc, if there is no player yet with that name.
      *
      * @param name Name of the player
+     *
      * @return true, if a new npc was created
      */
     public static boolean createNPC(String name) {
@@ -378,6 +389,7 @@ public class Economy {
      * Deletes a user, if it is marked as npc.
      *
      * @param name Name of the player
+     *
      * @throws UserDoesNotExistException
      */
     public static void removeNPC(String name) throws UserDoesNotExistException {

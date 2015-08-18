@@ -2,17 +2,20 @@ package com.earth2me.essentials.api;
 
 import com.earth2me.essentials.IConf;
 import com.earth2me.essentials.commands.WarpNotFoundException;
-import java.io.File;
-import java.util.Collection;
 import org.bukkit.Location;
 
-public interface IWarps extends IConf {
+import java.io.File;
+import java.util.Collection;
 
+
+public interface IWarps extends IConf {
     /**
      * Get a warp by name
      *
      * @param warp - Warp name
+     *
      * @return - Location the warp is set to
+     *
      * @throws WarpNotFoundException When the warp is not found
      * @throws InvalidWorldException When the world the warp is in is not found
      */
@@ -36,6 +39,7 @@ public interface IWarps extends IConf {
      * Delete a warp from the warp DB
      *
      * @param name - Name of warp
+     *
      * @throws Exception
      */
     void removeWarp(String name) throws Exception;
@@ -44,7 +48,8 @@ public interface IWarps extends IConf {
      * Set a warp
      *
      * @param name - Name of warp
-     * @param loc - Location of warp
+     * @param loc  - Location of warp
+     *
      * @throws Exception
      */
     void setWarp(String name, Location loc) throws Exception;
@@ -60,7 +65,9 @@ public interface IWarps extends IConf {
      * Get a warp file note: this is not yet implemented, as 3.x uses different storage methods
      *
      * @param name - name of file
+     *
      * @return - an instance of the file
+     *
      * @throws InvalidNameException - When the file is not found
      */
     File getWarpFile(String name) throws net.ess3.api.InvalidNameException;

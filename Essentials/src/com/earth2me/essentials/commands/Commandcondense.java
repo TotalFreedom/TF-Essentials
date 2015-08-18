@@ -1,30 +1,32 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
-import java.util.*;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import com.earth2me.essentials.ChargeException;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.Trade.OverflowType;
 import com.earth2me.essentials.User;
 import net.ess3.api.MaxMoneyException;
+import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
+
+import java.util.*;
+
+import static com.earth2me.essentials.I18n.tl;
+
 
 public class Commandcondense extends EssentialsCommand {
-
     public Commandcondense() {
         super("condense");
     }
-    private Map<ItemStack, SimpleRecipe> condenseList = new HashMap<ItemStack, SimpleRecipe>();
+
+    private Map<ItemStack, SimpleRecipe> condenseList = new HashMap<>();
 
     @Override
     public void run(final Server server, final User user, final String commandLabel, final String[] args) throws Exception {
-        List<ItemStack> is = new ArrayList<ItemStack>();
+        List<ItemStack> is = new ArrayList<>();
 
         boolean validateReverse = false;
         if (args.length > 0) {
@@ -108,8 +110,7 @@ public class Commandcondense extends EssentialsCommand {
             final Recipe recipe = intr.next();
             final Collection<ItemStack> recipeItems = getStackOnRecipeMatch(recipe, stack);
 
-            if (recipeItems != null && (recipeItems.size() == 4 || recipeItems.size() == 9)
-                    && (recipeItems.size() > recipe.getResult().getAmount())) {
+            if (recipeItems != null && (recipeItems.size() == 4 || recipeItems.size() == 9) && (recipeItems.size() > recipe.getResult().getAmount())) {
                 final ItemStack input = stack.clone();
                 input.setAmount(recipeItems.size());
                 final SimpleRecipe newRecipe = new SimpleRecipe(recipe.getResult(), input);
@@ -158,8 +159,8 @@ public class Commandcondense extends EssentialsCommand {
         return null;
     }
 
-    private class SimpleRecipe implements Recipe {
 
+    private class SimpleRecipe implements Recipe {
         private ItemStack result;
         private ItemStack input;
 

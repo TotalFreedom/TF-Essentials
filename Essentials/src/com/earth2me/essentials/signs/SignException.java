@@ -1,7 +1,7 @@
 package com.earth2me.essentials.signs;
 
-public class SignException extends Exception {
 
+public class SignException extends Exception {
     public SignException(final String message) {
         super(message);
     }

@@ -7,8 +7,8 @@ import com.earth2me.essentials.User;
 import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
 
-public class SignSell extends EssentialsSign {
 
+public class SignSell extends EssentialsSign {
     public SignSell() {
         super("Sell");
     }

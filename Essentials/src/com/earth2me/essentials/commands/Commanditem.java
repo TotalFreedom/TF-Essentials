@@ -1,16 +1,18 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.MetaItemStack;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.craftbukkit.InventoryWorkaround;
-import java.util.Locale;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 
-public class Commanditem extends EssentialsCommand {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commanditem extends EssentialsCommand {
     public Commanditem() {
         super("item");
     }
@@ -23,12 +25,7 @@ public class Commanditem extends EssentialsCommand {
         ItemStack stack = ess.getItemDb().get(args[0]);
 
         final String itemname = stack.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", "");
-        if (ess.getSettings().permissionBasedItemSpawn()
-                ? (!user.isAuthorized("essentials.itemspawn.item-all")
-                && !user.isAuthorized("essentials.itemspawn.item-" + itemname)
-                && !user.isAuthorized("essentials.itemspawn.item-" + stack.getTypeId()))
-                : (!user.isAuthorized("essentials.itemspawn.exempt")
-                && !user.canSpawnItem(stack.getTypeId()))) {
+        if (ess.getSettings().permissionBasedItemSpawn() ? (!user.isAuthorized("essentials.itemspawn.item-all") && !user.isAuthorized("essentials.itemspawn.item-" + itemname) && !user.isAuthorized("essentials.itemspawn.item-" + stack.getTypeId())) : (!user.isAuthorized("essentials.itemspawn.exempt") && !user.canSpawnItem(stack.getTypeId()))) {
             throw new Exception(tl("cantSpawnItem", itemname));
         }
         try {
@@ -42,14 +39,20 @@ public class Commanditem extends EssentialsCommand {
         } catch (NumberFormatException e) {
             throw new NotEnoughArgumentsException();
         }
+
+        MetaItemStack metaStack = new MetaItemStack(stack);
+        if (!metaStack.canSpawn(ess)) {
+            throw new Exception(tl("unableToSpawnItem", itemname));
+        }
+
         if (args.length > 2) {
-            MetaItemStack metaStack = new MetaItemStack(stack);
             final boolean allowUnsafe = ess.getSettings().allowUnsafeEnchantments() && user.isAuthorized("essentials.enchantments.allowunsafe");
 
             metaStack.parseStringMeta(user.getSource(), allowUnsafe, args, 2, ess);
 
             stack = metaStack.getItemStack();
         }
+
 
         if (stack.getType() == Material.AIR) {
             throw new Exception(tl("cantSpawnItem", "Air"));

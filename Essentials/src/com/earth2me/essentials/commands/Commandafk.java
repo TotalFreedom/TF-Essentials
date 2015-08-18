@@ -1,19 +1,21 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import org.bukkit.Server;
 
-public class Commandafk extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
+import me.StevenLawson.essentials.EssentialsHandler;
 
+
+public class Commandafk extends EssentialsCommand {
     public Commandafk() {
         super("afk");
     }
 
     @Override
     public void run(Server server, User user, String commandLabel, String[] args) throws Exception {
-        if (args.length > 0 && user.isAuthorized("essentials.afk.others")) {
+        if (args.length > 0 && !EssentialsHandler.isSuperAdmin(user)) {
             User afkUser = getPlayer(server, user, args, 0);
             toggleAfk(afkUser);
         } else {
@@ -51,3 +53,4 @@ public class Commandafk extends EssentialsCommand {
         }
     }
 }
+

@@ -1,23 +1,25 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.utils.NumberUtil;
 import com.earth2me.essentials.utils.StringUtil;
+import net.ess3.api.IUser;
+import org.bukkit.Server;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import net.ess3.api.IUser;
-import org.bukkit.Server;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+
+import static com.earth2me.essentials.I18n.tl;
+
 
 public class Commandwarp extends EssentialsCommand {
-
     private static final int WARPS_PER_PAGE = 20;
 
     public Commandwarp() {
@@ -61,7 +63,7 @@ public class Commandwarp extends EssentialsCommand {
     //TODO: Use one of the new text classes, like /help ?
     private void warpList(final CommandSource sender, final String[] args, final IUser user) throws Exception {
         final IWarps warps = ess.getWarps();
-        final List<String> warpNameList = new ArrayList<String>(warps.getList());
+        final List<String> warpNameList = new ArrayList<>(warps.getList());
 
         if (user != null) {
             final Iterator<String> iterator = warpNameList.iterator();

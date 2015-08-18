@@ -1,12 +1,7 @@
 package com.earth2me.essentials.signs;
 
 import com.earth2me.essentials.*;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
 import net.ess3.api.events.SignBreakEvent;
@@ -20,8 +15,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class EssentialsSign {
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class EssentialsSign {
     private static final Set<Material> EMPTY_SET = new HashSet<Material>();
     protected static final BigDecimal MINTRANSACTION = new BigDecimal("0.01");
     protected transient final String signName;
@@ -33,8 +35,7 @@ public class EssentialsSign {
     protected final boolean onSignCreate(final SignChangeEvent event, final IEssentials ess) {
         final ISign sign = new EventSign(event);
         final User user = ess.getUser(event.getPlayer());
-        if (!(user.isAuthorized("essentials.signs." + signName.toLowerCase(Locale.ENGLISH) + ".create")
-                || user.isAuthorized("essentials.signs.create." + signName.toLowerCase(Locale.ENGLISH)))) {
+        if (!(user.isAuthorized("essentials.signs." + signName.toLowerCase(Locale.ENGLISH) + ".create") || user.isAuthorized("essentials.signs.create." + signName.toLowerCase(Locale.ENGLISH)))) {
             // Return true, so other plugins can use the same sign title, just hope
             // they won't change it to §1[Signname]
             return true;
@@ -85,8 +86,7 @@ public class EssentialsSign {
             return false;
         }
         try {
-            if (user.getBase().isDead() || !(user.isAuthorized("essentials.signs." + signName.toLowerCase(Locale.ENGLISH) + ".use")
-                    || user.isAuthorized("essentials.signs.use." + signName.toLowerCase(Locale.ENGLISH)))) {
+            if (user.getBase().isDead() || !(user.isAuthorized("essentials.signs." + signName.toLowerCase(Locale.ENGLISH) + ".use") || user.isAuthorized("essentials.signs.use." + signName.toLowerCase(Locale.ENGLISH)))) {
                 return false;
             }
 
@@ -110,8 +110,7 @@ public class EssentialsSign {
         final ISign sign = new BlockSign(block);
         final User user = ess.getUser(player);
         try {
-            if (!(user.isAuthorized("essentials.signs." + signName.toLowerCase(Locale.ENGLISH) + ".break")
-                    || user.isAuthorized("essentials.signs.break." + signName.toLowerCase(Locale.ENGLISH)))) {
+            if (!(user.isAuthorized("essentials.signs." + signName.toLowerCase(Locale.ENGLISH) + ".break") || user.isAuthorized("essentials.signs.break." + signName.toLowerCase(Locale.ENGLISH)))) {
                 return false;
             }
 
@@ -199,12 +198,7 @@ public class EssentialsSign {
         if (sign.getType() == Material.SIGN_POST && isValidSign(new BlockSign(sign))) {
             return true;
         }
-        final BlockFace[] directions = new BlockFace[]{
-            BlockFace.NORTH,
-            BlockFace.EAST,
-            BlockFace.SOUTH,
-            BlockFace.WEST
-        };
+        final BlockFace[] directions = new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
         for (BlockFace blockFace : directions) {
             final Block signblock = block.getRelative(blockFace);
             if (signblock.getType() == Material.WALL_SIGN) {
@@ -261,8 +255,7 @@ public class EssentialsSign {
         }
     }
 
-    protected final void validateTrade(final ISign sign, final int amountIndex, final int itemIndex,
-            final User player, final IEssentials ess) throws SignException {
+    protected final void validateTrade(final ISign sign, final int amountIndex, final int itemIndex, final User player, final IEssentials ess) throws SignException {
         final String itemType = getSignText(sign, itemIndex);
         if (itemType.equalsIgnoreCase("exp") || itemType.equalsIgnoreCase("xp")) {
             int amount = getIntegerPositive(getSignText(sign, amountIndex));
@@ -276,8 +269,7 @@ public class EssentialsSign {
         sign.setLine(itemIndex, itemType);
     }
 
-    protected final Trade getTrade(final ISign sign, final int amountIndex, final int itemIndex,
-            final User player, final IEssentials ess) throws SignException {
+    protected final Trade getTrade(final ISign sign, final int amountIndex, final int itemIndex, final User player, final IEssentials ess) throws SignException {
         final String itemType = getSignText(sign, itemIndex);
         if (itemType.equalsIgnoreCase("exp") || itemType.equalsIgnoreCase("xp")) {
             final int amount = getIntegerPositive(getSignText(sign, amountIndex));
@@ -407,8 +399,8 @@ public class EssentialsSign {
         ess.showError(sender, exception, "\\ sign: " + signName);
     }
 
-    static class EventSign implements ISign {
 
+    static class EventSign implements ISign {
         private final transient SignChangeEvent event;
         private final transient Block block;
         private final transient Sign sign;
@@ -449,8 +441,8 @@ public class EssentialsSign {
         }
     }
 
-    static class BlockSign implements ISign {
 
+    static class BlockSign implements ISign {
         private final transient Sign sign;
         private final transient Block block;
 
@@ -487,14 +479,14 @@ public class EssentialsSign {
         }
     }
 
+
     public interface ISign {
+        String getLine(final int index);
 
-        public String getLine(final int index);
+        void setLine(final int index, final String text);
 
-        public void setLine(final int index, final String text);
+        Block getBlock();
 
-        public Block getBlock();
-
-        public void updateSign();
+        void updateSign();
     }
 }

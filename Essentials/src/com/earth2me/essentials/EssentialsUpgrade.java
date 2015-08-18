@@ -1,12 +1,17 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.craftbukkit.BanLookup;
 import com.earth2me.essentials.craftbukkit.FakeWorld;
 import com.earth2me.essentials.settings.Spawns;
 import com.earth2me.essentials.storage.YamlStorageWriter;
 import com.earth2me.essentials.utils.StringUtil;
 import com.google.common.base.Charsets;
+import net.ess3.api.IEssentials;
+import org.bukkit.BanList;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
@@ -14,14 +19,11 @@ import java.security.MessageDigest;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.ess3.api.IEssentials;
-import org.bukkit.BanList;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+
+import static com.earth2me.essentials.I18n.tl;
+
 
 public class EssentialsUpgrade {
-
     private final static Logger LOGGER = Logger.getLogger("Essentials");
     private final transient IEssentials ess;
     private final transient EssentialsConf doneFile;
@@ -128,16 +130,15 @@ public class EssentialsUpgrade {
             try {
                 config.load();
                 if (config.hasProperty("powertools")) {
-                    @SuppressWarnings("unchecked")
-                    final Map<String, Object> powertools = config.getConfigurationSection("powertools").getValues(false);
+                    @SuppressWarnings("unchecked") final Map<String, Object> powertools = config.getConfigurationSection("powertools").getValues(false);
                     if (powertools == null) {
                         continue;
                     }
                     for (Map.Entry<String, Object> entry : powertools.entrySet()) {
                         if (entry.getValue() instanceof String) {
-                            List<String> temp = new ArrayList<String>();
+                            List<String> temp = new ArrayList<>();
                             temp.add((String) entry.getValue());
-                            ((Map<String, Object>) powertools).put(entry.getKey(), temp);
+                            powertools.put(entry.getKey(), temp);
                         }
                     }
                     config.forceSave();
@@ -170,8 +171,7 @@ public class EssentialsUpgrade {
 
                 config.load();
                 if (config.hasProperty("home") && config.hasProperty("home.default")) {
-                    @SuppressWarnings("unchecked")
-                    final String defworld = (String) config.getProperty("home.default");
+                    @SuppressWarnings("unchecked") final String defworld = (String) config.getProperty("home.default");
                     final Location defloc = getFakeLocation(config, "home.worlds." + defworld);
                     if (defloc != null) {
                         config.setProperty("homes.home", defloc);
@@ -264,12 +264,7 @@ public class EssentialsUpgrade {
         if (world == null) {
             return null;
         }
-        return new Location(world,
-                config.getDouble((path != null ? path + "." : "") + "x", 0),
-                config.getDouble((path != null ? path + "." : "") + "y", 0),
-                config.getDouble((path != null ? path + "." : "") + "z", 0),
-                (float) config.getDouble((path != null ? path + "." : "") + "yaw", 0),
-                (float) config.getDouble((path != null ? path + "." : "") + "pitch", 0));
+        return new Location(world, config.getDouble((path != null ? path + "." : "") + "x", 0), config.getDouble((path != null ? path + "." : "") + "y", 0), config.getDouble((path != null ? path + "." : "") + "z", 0), (float) config.getDouble((path != null ? path + "." : "") + "yaw", 0), (float) config.getDouble((path != null ? path + "." : "") + "pitch", 0));
     }
 
     private void deleteOldItemsCsv() {
@@ -279,7 +274,7 @@ public class EssentialsUpgrade {
         final File file = new File(ess.getDataFolder(), "items.csv");
         if (file.exists()) {
             try {
-                final Set<BigInteger> oldconfigs = new HashSet<BigInteger>();
+                final Set<BigInteger> oldconfigs = new HashSet<>();
                 oldconfigs.add(new BigInteger("66ec40b09ac167079f558d1099e39f10", 16)); // sep 1
                 oldconfigs.add(new BigInteger("34284de1ead43b0bee2aae85e75c041d", 16)); // crlf
                 oldconfigs.add(new BigInteger("c33bc9b8ee003861611bbc2f48eb6f4f", 16)); // jul 24
@@ -287,13 +282,10 @@ public class EssentialsUpgrade {
 
                 MessageDigest digest = ManagedFile.getDigest();
                 final BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-                final DigestInputStream dis = new DigestInputStream(bis, digest);
                 final byte[] buffer = new byte[1024];
-                try {
+                try (DigestInputStream dis = new DigestInputStream(bis, digest)) {
                     while (dis.read(buffer) != -1) {
                     }
-                } finally {
-                    dis.close();
                 }
 
                 BigInteger hash = new BigInteger(1, digest.digest());
@@ -328,11 +320,8 @@ public class EssentialsUpgrade {
                     if (!configFile.renameTo(new File(ess.getDataFolder(), "spawn.yml.old"))) {
                         throw new Exception(tl("fileRenameError", "spawn.yml"));
                     }
-                    PrintWriter writer = new PrintWriter(configFile);
-                    try {
+                    try (PrintWriter writer = new PrintWriter(configFile)) {
                         new YamlStorageWriter(writer).save(spawns);
-                    } finally {
-                        writer.close();
                     }
                 }
             } catch (Exception ex) {
@@ -363,11 +352,8 @@ public class EssentialsUpgrade {
                     if (!configFile.renameTo(new File(ess.getDataFolder(), "jail.yml.old"))) {
                         throw new Exception(tl("fileRenameError", "jail.yml"));
                     }
-                    PrintWriter writer = new PrintWriter(configFile);
-                    try {
+                    try (PrintWriter writer = new PrintWriter(configFile)) {
                         new YamlStorageWriter(writer).save(jails);
-                    } finally {
-                        writer.close();
                     }
                 }
             } catch (Exception ex) {
@@ -382,7 +368,6 @@ public class EssentialsUpgrade {
         if (doneFile.getBoolean("warnMetrics", false)) {
             return;
         }
-        ess.getSettings().setMetricsEnabled(false);
         doneFile.setProperty("warnMetrics", true);
         doneFile.save();
     }

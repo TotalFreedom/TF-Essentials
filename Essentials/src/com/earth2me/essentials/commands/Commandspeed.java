@@ -1,14 +1,17 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
-import java.util.List;
+import com.earth2me.essentials.utils.FloatUtil;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
-public class Commandspeed extends EssentialsCommand {
+import java.util.List;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandspeed extends EssentialsCommand {
     public Commandspeed() {
         super("speed");
     }
@@ -94,8 +97,7 @@ public class Commandspeed extends EssentialsCommand {
         boolean isFlyMode;
         if (modeString.contains("fly") || modeString.equalsIgnoreCase("f")) {
             isFlyMode = true;
-        } else if (modeString.contains("walk") || modeString.contains("run")
-                || modeString.equalsIgnoreCase("w") || modeString.equalsIgnoreCase("r")) {
+        } else if (modeString.contains("walk") || modeString.contains("run") || modeString.equalsIgnoreCase("w") || modeString.equalsIgnoreCase("r")) {
             isFlyMode = false;
         } else {
             throw new NotEnoughArgumentsException();
@@ -106,7 +108,7 @@ public class Commandspeed extends EssentialsCommand {
     private float getMoveSpeed(final String moveSpeed) throws NotEnoughArgumentsException {
         float userSpeed;
         try {
-            userSpeed = Float.parseFloat(moveSpeed);
+            userSpeed = FloatUtil.parseFloat(moveSpeed);
             if (userSpeed > 10f) {
                 userSpeed = 10f;
             } else if (userSpeed < 0.0001f) {

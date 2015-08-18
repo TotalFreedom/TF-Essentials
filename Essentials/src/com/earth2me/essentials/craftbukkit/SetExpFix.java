@@ -2,10 +2,10 @@ package com.earth2me.essentials.craftbukkit;
 
 import org.bukkit.entity.Player;
 
+
 public class SetExpFix {
     //This method is used to update both the recorded total experience and displayed total experience.
     //We reset both types to prevent issues.
-
     public static void setTotalExperience(final Player player, final int exp) {
         if (exp < 0) {
             throw new IllegalArgumentException("Experience is negative!");
@@ -36,14 +36,16 @@ public class SetExpFix {
         return getExpAtLevel(player.getLevel());
     }
 
+    //new Exp Math from 1.8
     public static int getExpAtLevel(final int level) {
-        if (level > 29) {
-            return 62 + (level - 30) * 7;
+        if (level <= 15) {
+            return (2 * level) + 7;
         }
-        if (level > 15) {
-            return 17 + (level - 15) * 3;
+        if ((level >= 16) && (level <= 30)) {
+            return (5 * level) - 38;
         }
-        return 17;
+        return (9 * level) - 158;
+
     }
 
     public static int getExpToLevel(final int level) {

@@ -2,16 +2,16 @@ package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.Console;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.IReplyTo;
 import com.earth2me.essentials.User;
-import static com.earth2me.essentials.commands.EssentialsCommand.getFinalArg;
 import com.earth2me.essentials.utils.FormatUtil;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 
-public class Commandmsg extends EssentialsLoopCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandmsg extends EssentialsLoopCommand {
     final String translatedMe = tl("me");
 
     public Commandmsg() {
@@ -64,6 +64,9 @@ public class Commandmsg extends EssentialsLoopCommand {
 
         sender.sendMessage(tl("msgFormat", translatedMe, matchedUser.getDisplayName(), args[0]));
         if (sender.isPlayer() && matchedUser.isIgnoredPlayer(ess.getUser(sender.getPlayer()))) {
+            return;
+        }
+        if (matchedUser.isIgnoreMsg()) {
             return;
         }
 

@@ -1,13 +1,13 @@
 package net.ess3.api.events;
 
-import java.math.BigDecimal;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class UserBalanceUpdateEvent extends Event {
+import java.math.BigDecimal;
 
+
+public class UserBalanceUpdateEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private final Player player;
     private final BigDecimal originalBalance;

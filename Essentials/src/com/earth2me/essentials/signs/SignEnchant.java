@@ -1,14 +1,19 @@
 package com.earth2me.essentials.signs;
 
-import com.earth2me.essentials.*;
-import static com.earth2me.essentials.I18n.tl;
-import java.util.Locale;
+import com.earth2me.essentials.ChargeException;
+import com.earth2me.essentials.Enchantments;
+import com.earth2me.essentials.Trade;
+import com.earth2me.essentials.User;
 import net.ess3.api.IEssentials;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-public class SignEnchant extends EssentialsSign {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class SignEnchant extends EssentialsSign {
     public SignEnchant() {
         super("Enchant");
     }
@@ -39,8 +44,7 @@ public class SignEnchant extends EssentialsSign {
             sign.setLine(2, "§c<enchant>");
             throw new SignException(ex.getMessage(), ex);
         }
-        final boolean allowUnsafe = ess.getSettings().allowUnsafeEnchantments()
-                && player.isAuthorized("essentials.enchantments.allowunsafe") && player.isAuthorized("essentials.signs.enchant.allowunsafe");
+        final boolean allowUnsafe = ess.getSettings().allowUnsafeEnchantments() && player.isAuthorized("essentials.enchantments.allowunsafe") && player.isAuthorized("essentials.signs.enchant.allowunsafe");
         if (level < 0 || (!allowUnsafe && level > enchantment.getMaxLevel())) {
             level = enchantment.getMaxLevel();
             sign.setLine(2, enchantLevel[0] + ":" + level);
@@ -81,10 +85,7 @@ public class SignEnchant extends EssentialsSign {
         }
 
         final ItemStack playerHand = player.getBase().getItemInHand();
-        if (playerHand == null
-                || playerHand.getAmount() != 1
-                || (playerHand.containsEnchantment(enchantment)
-                && playerHand.getEnchantmentLevel(enchantment) == level)) {
+        if (playerHand == null || playerHand.getAmount() != 1 || (playerHand.containsEnchantment(enchantment) && playerHand.getEnchantmentLevel(enchantment) == level)) {
             throw new SignException(tl("missingItems", 1, sign.getLine(1)));
         }
         if (search != null && playerHand.getType() != search.getType()) {

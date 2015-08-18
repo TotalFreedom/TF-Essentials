@@ -1,18 +1,22 @@
 package com.earth2me.essentials.commands;
 
-import com.earth2me.essentials.*;
-import static com.earth2me.essentials.I18n.tl;
+import com.earth2me.essentials.ChargeException;
+import com.earth2me.essentials.Trade;
+import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.StringUtil;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import net.ess3.api.IUser;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 
-public class Commandrepair extends EssentialsCommand {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandrepair extends EssentialsCommand {
     public Commandrepair() {
         super("repair");
     }
@@ -37,9 +41,7 @@ public class Commandrepair extends EssentialsCommand {
             throw new Exception(tl("repairInvalidType"));
         }
 
-        if (!item.getEnchantments().isEmpty()
-                && !ess.getSettings().getRepairEnchanted()
-                && !user.isAuthorized("essentials.repair.enchanted")) {
+        if (!item.getEnchantments().isEmpty() && !ess.getSettings().getRepairEnchanted() && !user.isAuthorized("essentials.repair.enchanted")) {
             throw new Exception(tl("repairEnchanted"));
         }
 
@@ -56,7 +58,7 @@ public class Commandrepair extends EssentialsCommand {
     }
 
     public void repairAll(User user) throws Exception {
-        final List<String> repaired = new ArrayList<String>();
+        final List<String> repaired = new ArrayList<>();
         repairItems(user.getBase().getInventory().getContents(), user, repaired);
 
         if (user.isAuthorized("essentials.repair.armor")) {
@@ -97,9 +99,7 @@ public class Commandrepair extends EssentialsCommand {
                 user.sendMessage(ex.getMessage());
                 continue;
             }
-            if (!item.getEnchantments().isEmpty()
-                    && !ess.getSettings().getRepairEnchanted()
-                    && !user.isAuthorized("essentials.repair.enchanted")) {
+            if (!item.getEnchantments().isEmpty() && !ess.getSettings().getRepairEnchanted() && !user.isAuthorized("essentials.repair.enchanted")) {
                 continue;
             }
 

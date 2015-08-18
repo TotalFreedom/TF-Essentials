@@ -5,18 +5,11 @@
 
     <parent>
         <groupId>net.ess3</groupId>
-        <artifactId>EssentialsParent</artifactId>
-        <version>2.0-TF</version>
+        <artifactId>EssentialsXParent</artifactId>
+        <version>2.0.1</version>
     </parent>
 
-    <artifactId>Essentials</artifactId>
-
-    <url>http://ess3.net/</url>
-
-    <organization>
-        <name>Essentials Team</name>
-        <url>http://ess3.net/</url>
-    </organization>
+    <artifactId>EssentialsX</artifactId>
 
     <licenses>
         <license>
@@ -25,40 +18,33 @@
         </license>
     </licenses>
 
-    <scm>
-        <connection>scm:git:https://github.com/essentials/Essentials.git</connection>
-        <developerConnection>scm:git:https://github.com/essentials/Essentials.git</developerConnection>
-        <url>https://github.com/essentials/Essentials</url>
-    </scm>
-
-    <issueManagement>
-        <system>JIRA</system>
-        <url>http://essentials3.atlassian.net</url>
-    </issueManagement>
-
-    <ciManagement>
-        <system>TeamCity</system>
-        <url>http://ci.ess3.net/</url>
-    </ciManagement>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>2.5.1</version>
                 <configuration>
-                    <showDeprecation>true</showDeprecation>
+                    <showDeprecation>false</showDeprecation>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.7.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.3-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>BOSEconomy</groupId>
             <artifactId>BOSEconomy</artifactId>
@@ -67,9 +53,11 @@
             <systemPath>${project.basedir}/../lib/BOSEconomy.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>de.bananaco</groupId>
-            <artifactId>bPermissions</artifactId>
-            <version>v2.12-DEV</version>
+            <groupId>ru.tehkode</groupId>
+            <artifactId>PermissionsEx</artifactId>
+            <version>1.20.4</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../lib/PermissionsEx.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>iConomy</groupId>
@@ -93,45 +81,58 @@
             <systemPath>${project.basedir}/../lib/MultiCurrency.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>com.platymuus</groupId>
-            <artifactId>bukkit-permissions</artifactId>
-            <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../lib/PermissionsBukkit.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>ru.tehkode</groupId>
-            <artifactId>PermissionsEx</artifactId>
-            <version>1.20.4</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../lib/PermissionsEx.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>Privileges</groupId>
-            <artifactId>Privileges</artifactId>
-            <version>1.8.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../lib/Privileges.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>SimplyPerms</groupId>
-            <artifactId>SimplyPerms</artifactId>
-            <version>1.7.6</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../lib/SimplyPerms.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
-            <version>1.2.32</version>
+            <version>1.5.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>zPermissions</groupId>
-            <artifactId>zPermissions</artifactId>
-            <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../lib/zPermissions.jar</systemPath>
+            <groupId>net.ess3</groupId>
+            <artifactId>NMSProvider</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>BlockMetaProvider</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>1_8_R1Provider</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>craftbukkit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>1_8_R2Provider</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>craftbukkit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>LegacyProvider</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
-    <name>Essentials</name>
+    <repositories>
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
+    </repositories>
 </project>

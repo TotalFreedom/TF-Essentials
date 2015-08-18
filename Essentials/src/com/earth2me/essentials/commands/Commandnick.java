@@ -1,16 +1,19 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.FormatUtil;
-import java.util.Locale;
 import net.ess3.api.events.NickChangeEvent;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
-public class Commandnick extends EssentialsLoopCommand {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+import me.StevenLawson.essentials.EssentialsHandler;
+
+
+public class Commandnick extends EssentialsLoopCommand {
     public Commandnick() {
         super("nick");
     }
@@ -24,7 +27,7 @@ public class Commandnick extends EssentialsLoopCommand {
             throw new Exception(tl("nickDisplayName"));
         }
 
-        if (args.length > 1 && user.isAuthorized("essentials.nick.others")) {
+        if (args.length > 1 && EssentialsHandler.isSuperAdmin(user)) {
             final String[] nickname = formatNickname(user, args[1]).split(" ");
             loopOfflinePlayers(server, user.getSource(), false, true, args[0], nickname);
             user.sendMessage(tl("nickChanged"));
@@ -87,15 +90,11 @@ public class Commandnick extends EssentialsLoopCommand {
                 continue;
             }
             final String matchNick = FormatUtil.stripFormat(onlinePlayer.getDisplayName().replace(ess.getSettings().getNicknamePrefix(), ""));
-            if (lowerNick.equals(matchNick.toLowerCase(Locale.ENGLISH))
-                    || lowerNick.equals(onlinePlayer.getName().toLowerCase(Locale.ENGLISH))) {
+            if (lowerNick.equals(matchNick.toLowerCase(Locale.ENGLISH)) || lowerNick.equals(onlinePlayer.getName().toLowerCase(Locale.ENGLISH))) {
                 return true;
             }
         }
-        if (ess.getUser(lowerNick) != null && ess.getUser(lowerNick) != target) {
-            return true;
-        }
-        return false;
+        return ess.getUser(lowerNick) != null && ess.getUser(lowerNick) != target;
     }
 
     private void setNickname(final Server server, final CommandSource sender, final User target, final String nickname) {

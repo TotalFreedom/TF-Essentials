@@ -1,17 +1,19 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Locale;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 
-public class Commandworth extends EssentialsCommand {
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandworth extends EssentialsCommand {
     public Commandworth() {
         super("worth");
     }
@@ -92,18 +94,7 @@ public class Commandworth extends EssentialsCommand {
 
         BigDecimal result = worth.multiply(BigDecimal.valueOf(amount));
 
-        sender.sendMessage(is.getDurability() != 0
-                ? tl("worthMeta",
-                        is.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", ""),
-                        is.getDurability(),
-                        NumberUtil.displayCurrency(result, ess),
-                        amount,
-                        NumberUtil.displayCurrency(worth, ess))
-                : tl("worth",
-                        is.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", ""),
-                        NumberUtil.displayCurrency(result, ess),
-                        amount,
-                        NumberUtil.displayCurrency(worth, ess)));
+        sender.sendMessage(is.getDurability() != 0 ? tl("worthMeta", is.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", ""), is.getDurability(), NumberUtil.displayCurrency(result, ess), amount, NumberUtil.displayCurrency(worth, ess)) : tl("worth", is.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", ""), NumberUtil.displayCurrency(result, ess), amount, NumberUtil.displayCurrency(worth, ess)));
 
         return result;
     }

@@ -1,14 +1,9 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.MetaItemStack;
 import com.earth2me.essentials.Potions;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.StringUtil;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
@@ -16,8 +11,15 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Commandpotion extends EssentialsCommand {
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandpotion extends EssentialsCommand {
     public Commandpotion() {
         super("potion");
     }
@@ -27,7 +29,7 @@ public class Commandpotion extends EssentialsCommand {
         final ItemStack stack = user.getBase().getItemInHand();
 
         if (args.length == 0) {
-            final Set<String> potionslist = new TreeSet<String>();
+            final Set<String> potionslist = new TreeSet<>();
             for (Map.Entry<String, PotionEffectType> entry : Potions.entrySet()) {
                 final String potionName = entry.getValue().getName().toLowerCase(Locale.ENGLISH);
                 if (potionslist.contains(potionName) || (user.isAuthorized("essentials.potion." + potionName))) {

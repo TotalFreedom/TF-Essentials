@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class PlayerTarget implements ITarget {
 
+public class PlayerTarget implements ITarget {
     private final String name;
 
     public PlayerTarget(Player entity) {

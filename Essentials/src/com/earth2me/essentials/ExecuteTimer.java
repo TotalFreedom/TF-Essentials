@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ExecuteTimer {
 
+public class ExecuteTimer {
     private final transient List<ExecuteRecord> times;
     private final transient DecimalFormat decimalFormat = new DecimalFormat("#0.000", DecimalFormatSymbols.getInstance(Locale.US));
+
 
     public ExecuteTimer() {
         times = new ArrayList<ExecuteRecord>();
@@ -37,8 +38,8 @@ public class ExecuteTimer {
         double duration;
 
         for (ExecuteRecord pair : times) {
-            mark = (String) pair.getMark();
-            time2 = (Long) pair.getTime();
+            mark = pair.getMark();
+            time2 = pair.getTime();
             if (time1 > 0) {
                 duration = (time2 - time1) / 1000000.0;
                 output.append(mark).append(": ").append(decimalFormat.format(duration)).append("ms - ");
@@ -53,8 +54,8 @@ public class ExecuteTimer {
         return output.toString();
     }
 
-    private static class ExecuteRecord {
 
+    private static class ExecuteRecord {
         private final String mark;
         private final long time;
 

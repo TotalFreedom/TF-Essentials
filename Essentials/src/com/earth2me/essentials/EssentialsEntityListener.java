@@ -1,10 +1,5 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import net.ess3.api.IEssentials;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -15,8 +10,15 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.inventory.ItemStack;
 
-public class EssentialsEntityListener implements Listener {
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class EssentialsEntityListener implements Listener {
     private static final Logger LOGGER = Logger.getLogger("Essentials");
     private static final transient Pattern powertoolPlayer = Pattern.compile("\\{player\\}");
     private final IEssentials ess;
@@ -58,9 +60,7 @@ public class EssentialsEntityListener implements Listener {
     }
 
     private void onPlayerVsPlayerDamage(final EntityDamageByEntityEvent event, final Player defender, final User attacker) {
-        if (ess.getSettings().getLoginAttackDelay() > 0
-                && (System.currentTimeMillis() < (attacker.getLastLogin() + ess.getSettings().getLoginAttackDelay()))
-                && !attacker.isAuthorized("essentials.pvpdelay.exempt")) {
+        if (ess.getSettings().getLoginAttackDelay() > 0 && (System.currentTimeMillis() < (attacker.getLastLogin() + ess.getSettings().getLoginAttackDelay())) && !attacker.isAuthorized("essentials.pvpdelay.exempt")) {
             event.setCancelled(true);
         }
 
@@ -87,7 +87,6 @@ public class EssentialsEntityListener implements Listener {
                 if (command != null && !command.isEmpty() && !command.equals(tempCommand)) {
 
                     class PowerToolInteractTask implements Runnable {
-
                         @Override
                         public void run() {
                             attacker.getServer().dispatchCommand(attacker.getBase(), command);
@@ -157,8 +156,7 @@ public class EssentialsEntityListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityRegainHealth(final EntityRegainHealthEvent event) {
-        if (event.getRegainReason() == RegainReason.SATIATED && event.getEntity() instanceof Player
-                && ess.getUser((Player) event.getEntity()).isAfk() && ess.getSettings().getFreezeAfkPlayers()) {
+        if (event.getRegainReason() == RegainReason.SATIATED && event.getEntity() instanceof Player && ess.getUser((Player) event.getEntity()).isAfk() && ess.getSettings().getFreezeAfkPlayers()) {
             event.setCancelled(true);
         }
     }

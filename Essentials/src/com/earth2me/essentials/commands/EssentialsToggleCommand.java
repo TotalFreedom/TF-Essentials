@@ -2,12 +2,13 @@ package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.User;
-import java.util.List;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
-public abstract class EssentialsToggleCommand extends EssentialsCommand {
+import java.util.List;
 
+
+public abstract class EssentialsToggleCommand extends EssentialsCommand {
     String othersPermission;
 
     public EssentialsToggleCommand(String command, String othersPermission) {

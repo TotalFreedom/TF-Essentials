@@ -1,15 +1,17 @@
 package net.ess3.api.events;
 
-import static com.earth2me.essentials.I18n.tl;
-import java.util.IllegalFormatException;
-import java.util.Set;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class LocalChatSpyEvent extends Event implements Cancellable {
+import java.util.IllegalFormatException;
+import java.util.Set;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class LocalChatSpyEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled = false;
     private String message;
@@ -44,8 +46,8 @@ public class LocalChatSpyEvent extends Event implements Cancellable {
     }
 
     /**
-     * Gets the format to use to display this chat message. When this event finishes execution, the first format parameter is the {@link Player#getDisplayName()} and the second parameter is
-     * {@link #getMessage()}
+     * Gets the format to use to display this chat message. When this event finishes execution, the first format
+     * parameter is the {@link Player#getDisplayName()} and the second parameter is {@link #getMessage()}
      *
      * @return {@link String#format(String, Object...)} compatible format string
      */
@@ -54,12 +56,13 @@ public class LocalChatSpyEvent extends Event implements Cancellable {
     }
 
     /**
-     * Sets the format to use to display this chat message. When this event finishes execution, the first format parameter is the {@link Player#getDisplayName()} and the second parameter is
-     * {@link #getMessage()}
+     * Sets the format to use to display this chat message. When this event finishes execution, the first format
+     * parameter is the {@link Player#getDisplayName()} and the second parameter is {@link #getMessage()}
      *
      * @param format {@link String#format(String, Object...)} compatible format string
+     *
      * @throws IllegalFormatException if the underlying API throws the exception
-     * @throws NullPointerException if format is null
+     * @throws NullPointerException   if format is null
      * @see String#format(String, Object...)
      */
     public void setFormat(final String format) throws IllegalFormatException, NullPointerException {

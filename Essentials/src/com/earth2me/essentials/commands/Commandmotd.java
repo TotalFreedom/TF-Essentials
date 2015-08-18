@@ -7,8 +7,8 @@ import com.earth2me.essentials.textreader.TextInput;
 import com.earth2me.essentials.textreader.TextPager;
 import org.bukkit.Server;
 
-public class Commandmotd extends EssentialsCommand {
 
+public class Commandmotd extends EssentialsCommand {
     public Commandmotd() {
         super("motd");
     }

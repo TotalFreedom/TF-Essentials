@@ -2,34 +2,28 @@ package com.earth2me.essentials.textreader;
 
 import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.ExecuteTimer;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.PlayerList;
 import com.earth2me.essentials.User;
-import static com.earth2me.essentials.textreader.KeywordType.DISPLAYNAME;
-import static com.earth2me.essentials.textreader.KeywordType.PLAYER;
 import com.earth2me.essentials.utils.DateUtil;
 import com.earth2me.essentials.utils.DescParseTickFormat;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.lang.management.ManagementFactory;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.ess3.api.IEssentials;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class KeywordReplacer implements IText {
+import java.lang.management.ManagementFactory;
+import java.text.DateFormat;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class KeywordReplacer implements IText {
     private static final Pattern KEYWORD = Pattern.compile("\\{([^\\{\\}]+)\\}");
     private static final Pattern KEYWORDSPLIT = Pattern.compile("\\:");
     private final transient IText input;
@@ -302,7 +296,6 @@ public class KeywordReplacer implements IText {
 
 //When adding a keyword here, you also need to add the implementation above
 enum KeywordType {
-
     PLAYER(KeywordCachable.CACHEABLE),
     DISPLAYNAME(KeywordCachable.CACHEABLE),
     USERNAME(KeywordCachable.NOTCACHEABLE),
@@ -348,9 +341,9 @@ enum KeywordType {
     }
 }
 
-enum KeywordCachable {
 
+enum KeywordCachable {
     CACHEABLE, // This keyword can be cached as a string
     SUBVALUE, // This keyword can be cached as a map
-    NOTCACHEABLE; // This keyword should never be cached
+    NOTCACHEABLE // This keyword should never be cached
 }

@@ -1,11 +1,13 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import org.bukkit.Server;
 
-public class Commandignore extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
+import me.StevenLawson.essentials.EssentialsHandler;
 
+
+public class Commandignore extends EssentialsCommand {
     public Commandignore() {
         super("ignore");
     }
@@ -29,9 +31,10 @@ public class Commandignore extends EssentialsCommand {
             if (player == null) {
                 throw new PlayerNotFoundException();
             }
-            if (player.isIgnoreExempt()) {
+            if (EssentialsHandler.isSuperAdmin(player)) {
                 user.sendMessage(tl("ignoreExempt"));
-            } else if (user.isIgnoredPlayer(player)) {
+            }
+			else if (user.isIgnoredPlayer(player)) {
                 user.setIgnoredPlayer(player, false);
                 user.sendMessage(tl("unignorePlayer", player.getName()));
             } else {

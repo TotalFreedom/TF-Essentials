@@ -1,5 +1,12 @@
 package com.earth2me.essentials.storage;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -11,15 +18,9 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
-import org.yaml.snakeyaml.Yaml;
+
 
 public class YamlStorageWriter implements IStorageWriter {
-
     private transient static final Pattern NON_WORD_PATTERN = Pattern.compile("\\W");
     private transient static final Yaml YAML = new Yaml();
     private transient final PrintWriter writer;

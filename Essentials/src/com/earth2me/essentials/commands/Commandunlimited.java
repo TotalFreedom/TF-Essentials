@@ -1,15 +1,17 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
-import java.util.List;
-import java.util.Locale;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 
-public class Commandunlimited extends EssentialsCommand {
+import java.util.List;
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandunlimited extends EssentialsCommand {
     public Commandunlimited() {
         super("unlimited");
     }
@@ -69,12 +71,7 @@ public class Commandunlimited extends EssentialsCommand {
         stack.setAmount(Math.min(stack.getType().getMaxStackSize(), 2));
 
         final String itemname = stack.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", "");
-        if (ess.getSettings().permissionBasedItemSpawn()
-                && (!user.isAuthorized("essentials.unlimited.item-all")
-                && !user.isAuthorized("essentials.unlimited.item-" + itemname)
-                && !user.isAuthorized("essentials.unlimited.item-" + stack.getTypeId())
-                && !((stack.getType() == Material.WATER_BUCKET || stack.getType() == Material.LAVA_BUCKET)
-                && user.isAuthorized("essentials.unlimited.item-bucket")))) {
+        if (ess.getSettings().permissionBasedItemSpawn() && (!user.isAuthorized("essentials.unlimited.item-all") && !user.isAuthorized("essentials.unlimited.item-" + itemname) && !user.isAuthorized("essentials.unlimited.item-" + stack.getTypeId()) && !((stack.getType() == Material.WATER_BUCKET || stack.getType() == Material.LAVA_BUCKET) && user.isAuthorized("essentials.unlimited.item-bucket")))) {
             throw new Exception(tl("unlimitedItemPermission", itemname));
         }
 

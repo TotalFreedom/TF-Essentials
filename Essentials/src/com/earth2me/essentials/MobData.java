@@ -1,33 +1,20 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.utils.StringUtil;
-import java.util.*;
-import java.util.logging.Logger;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ExperienceOrb;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Pig;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.Tameable;
-import org.bukkit.entity.Villager;
-import org.bukkit.entity.Wolf;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Colorable;
 
-public enum MobData {
+import java.util.*;
+import java.util.logging.Logger;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public enum MobData {
     BABY_AGEABLE("baby", Ageable.class, Data.BABY, true),
     ADULT_AGEABLE("adult", Ageable.class, Data.ADULT, true),
     BABY_PIG("piglet", EntityType.PIG, Data.BABY, false),
@@ -111,8 +98,8 @@ public enum MobData {
     SIZE_SLIME("", "<1-100>", EntityType.SLIME.getEntityClass(), Data.SIZE, true),
     NUM_EXPERIENCE_ORB("", "<1-2000000000>", EntityType.EXPERIENCE_ORB, Data.EXP, true);
 
-    public enum Data {
 
+    public enum Data {
         ADULT,
         BABY,
         CHEST,
@@ -127,11 +114,12 @@ public enum MobData {
         TAMED,
         COLORABLE,
         EXP,
-        SIZE;
+        SIZE
     }
+
     public static final Logger logger = Logger.getLogger("Essentials");
 
-    private MobData(String n, Object type, Object value, boolean isPublic) {
+    MobData(String n, Object type, Object value, boolean isPublic) {
         this.nickname = n;
         this.matched = n;
         this.helpMessage = n;
@@ -140,7 +128,7 @@ public enum MobData {
         this.isPublic = isPublic;
     }
 
-    private MobData(String n, String h, Object type, Object value, boolean isPublic) {
+    MobData(String n, String h, Object type, Object value, boolean isPublic) {
         this.nickname = n;
         this.matched = n;
         this.helpMessage = h;
@@ -148,6 +136,7 @@ public enum MobData {
         this.value = value;
         this.isPublic = isPublic;
     }
+
     final private String nickname;
     final private String helpMessage;
     final private Object type;

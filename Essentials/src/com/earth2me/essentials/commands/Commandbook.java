@@ -1,14 +1,15 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-public class Commandbook extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandbook extends EssentialsCommand {
     public Commandbook() {
         super("book");
     }

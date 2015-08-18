@@ -1,18 +1,11 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.commands.IEssentialsCommand;
 import com.earth2me.essentials.register.payment.Method;
 import com.earth2me.essentials.register.payment.Methods;
 import com.earth2me.essentials.utils.DateUtil;
 import com.earth2me.essentials.utils.FormatUtil;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
 import net.ess3.api.events.AfkStatusChangeEvent;
@@ -24,8 +17,17 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class User extends UserData implements Comparable<User>, IReplyTo, net.ess3.api.IUser {
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class User extends UserData implements Comparable<User>, IReplyTo, net.ess3.api.IUser {
     private static final Logger logger = Logger.getLogger("Essentials");
     private CommandSource replyTo = null;
     private transient UUID teleportRequester;
@@ -44,6 +46,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
     private boolean recipeSee = false;
     private boolean enderSee = false;
     private transient long teleportInvulnerabilityTimestamp = 0;
+    private boolean ignoreMsg = false;
 
     public User(final Player base, final IEssentials ess) {
         super(base, ess);
@@ -117,7 +120,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
 
     @Override
     public void giveMoney(final BigDecimal value) throws MaxMoneyException {
-        giveMoney(value, (CommandSource) null);
+        giveMoney(value, null);
     }
 
     @Override
@@ -149,7 +152,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
 
     @Override
     public void takeMoney(final BigDecimal value) {
-        takeMoney(value, (CommandSource) null);
+        takeMoney(value, null);
     }
 
     @Override
@@ -267,17 +270,13 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
         if (ess.getSettings().addPrefixSuffix()) {
             //These two extra toggles are not documented, because they are mostly redundant #EasterEgg
             if (!ess.getSettings().disablePrefix()) {
-                final String ptext = ess.getPermissionsHandler().getPrefix(base).replace('&',
-
-                '§');
-				prefix.insert(0, ptext);
+                final String ptext = ess.getPermissionsHandler().getPrefix(base).replace('&', '§');
+                prefix.insert(0, ptext);
                 suffix = "§r";
             }
             if (!ess.getSettings().disableSuffix()) {
-                final String stext = ess.getPermissionsHandler().getSuffix(base).replace('&',
-
-                '§');
-				suffix = stext + "§r";
+                final String stext = ess.getPermissionsHandler().getSuffix(base).replace('&', '§');
+                suffix = stext + "§r";
                 suffix = suffix.replace("§f§f", "§f").replace("§f§r", "§r").replace("§r§r", "§r");
             }
         }
@@ -487,11 +486,11 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
 
     public void checkActivity() {
         final long autoafkkick = ess.getSettings().getAutoAfkKick();
-        if (autoafkkick > 0 && lastActivity > 0 && (lastActivity + (autoafkkick * 1000)) < System.currentTimeMillis()
-                && !isHidden() && !isAuthorized("essentials.kick.exempt") && !isAuthorized("essentials.afk.kickexempt")) {
+        if (autoafkkick > 0 && lastActivity > 0 && (lastActivity + (autoafkkick * 1000)) < System.currentTimeMillis() && !isHidden() && !isAuthorized("essentials.kick.exempt") && !isAuthorized("essentials.afk.kickexempt")) {
             final String kickReason = tl("autoAfkKickReason", autoafkkick / 60.0);
             lastActivity = 0;
             this.getBase().kickPlayer(kickReason);
+
 
             for (User user : ess.getOnlineUsers()) {
                 if (user.isAuthorized("essentials.kick.notify")) {
@@ -518,8 +517,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
 
     @Override
     public boolean isGodModeEnabled() {
-        return (super.isGodModeEnabled() && !ess.getSettings().getNoGodWorlds().contains(this.getLocation().getWorld().getName()))
-                || (isAfk() && ess.getSettings().getFreezeAfkPlayers());
+        return (super.isGodModeEnabled() && !ess.getSettings().getNoGodWorlds().contains(this.getLocation().getWorld().getName())) || (isAfk() && ess.getSettings().getFreezeAfkPlayers());
     }
 
     public boolean isGodModeEnabledRaw() {
@@ -582,8 +580,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
 
     @Override
     public void resetInvulnerabilityAfterTeleport() {
-        if (teleportInvulnerabilityTimestamp != 0
-                && teleportInvulnerabilityTimestamp < System.currentTimeMillis()) {
+        if (teleportInvulnerabilityTimestamp != 0 && teleportInvulnerabilityTimestamp < System.currentTimeMillis()) {
             teleportInvulnerabilityTimestamp = 0;
         }
     }
@@ -595,6 +592,16 @@ public class User extends UserData implements Comparable<User>, IReplyTo, net.es
 
     public boolean canInteractVanished() {
         return isAuthorized("essentials.vanish.interact");
+    }
+
+    @Override
+    public boolean isIgnoreMsg() {
+        return ignoreMsg;
+    }
+
+    @Override
+    public void setIgnoreMsg(boolean ignoreMsg) {
+        this.ignoreMsg = ignoreMsg;
     }
 
     @Override

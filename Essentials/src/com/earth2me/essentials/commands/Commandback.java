@@ -1,12 +1,13 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.User;
 import org.bukkit.Server;
 
-public class Commandback extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandback extends EssentialsCommand {
     public Commandback() {
         super("back");
     }
@@ -16,8 +17,7 @@ public class Commandback extends EssentialsCommand {
         if (user.getLastLocation() == null) {
             throw new Exception(tl("noLocationFound"));
         }
-        if (user.getWorld() != user.getLastLocation().getWorld() && ess.getSettings().isWorldTeleportPermissions()
-                && !user.isAuthorized("essentials.worlds." + user.getLastLocation().getWorld().getName())) {
+        if (user.getWorld() != user.getLastLocation().getWorld() && ess.getSettings().isWorldTeleportPermissions() && !user.isAuthorized("essentials.worlds." + user.getLastLocation().getWorld().getName())) {
             throw new Exception(tl("noPerm", "essentials.worlds." + user.getLastLocation().getWorld().getName()));
         }
         final Trade charge = new Trade(this.getName(), ess);

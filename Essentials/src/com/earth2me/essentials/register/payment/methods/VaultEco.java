@@ -6,8 +6,8 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultEco implements Method {
 
+public class VaultEco implements Method {
     private Vault vault;
     private Economy economy;
 
@@ -71,8 +71,7 @@ public class VaultEco implements Method {
 
     @Override
     public boolean hasBankAccount(String bank, String name) {
-        return this.economy.isBankOwner(bank, name).transactionSuccess()
-                || this.economy.isBankMember(bank, name).transactionSuccess();
+        return this.economy.isBankOwner(bank, name).transactionSuccess() || this.economy.isBankMember(bank, name).transactionSuccess();
     }
 
     @Override
@@ -126,8 +125,8 @@ public class VaultEco implements Method {
         }
     }
 
-    public class VaultAccount implements MethodAccount {
 
+    public class VaultAccount implements MethodAccount {
         private final String name;
         private final Economy economy;
 
@@ -200,8 +199,8 @@ public class VaultEco implements Method {
         }
     }
 
-    public class VaultBankAccount implements MethodBankAccount {
 
+    public class VaultBankAccount implements MethodBankAccount {
         private final String bank;
         private final Economy economy;
 

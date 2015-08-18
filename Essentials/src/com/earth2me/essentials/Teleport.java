@@ -1,11 +1,7 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.utils.DateUtil;
 import com.earth2me.essentials.utils.LocationUtil;
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import net.ess3.api.IEssentials;
 import net.ess3.api.IUser;
 import org.bukkit.Location;
@@ -13,15 +9,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class Teleport implements net.ess3.api.ITeleport {
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Teleport implements net.ess3.api.ITeleport {
     private final IUser teleportOwner;
     private final IEssentials ess;
     private TimedTeleport timedTeleport;
 
+    private TeleportType tpType;
+
     public Teleport(IUser user, IEssentials ess) {
         this.teleportOwner = user;
         this.ess = ess;
+        tpType = TeleportType.NORMAL;
+    }
+
+    public enum TeleportType {
+        TPA,
+        BACK,
+        NORMAL
     }
 
     public void cooldown(boolean check) throws Exception {
@@ -43,7 +54,8 @@ public class Teleport implements net.ess3.api.ITeleport {
                 // If this happens, let's give the user the benifit of the doubt.
                 teleportOwner.setLastTeleportTimestamp(time.getTimeInMillis());
                 return;
-            } else if (lastTime > earliestLong && !teleportOwner.isAuthorized("essentials.teleport.cooldown.bypass")) {
+            } else if (lastTime > earliestLong
+                    && cooldownApplies()) {
                 time.setTimeInMillis(lastTime);
                 time.add(Calendar.SECOND, (int) cooldown);
                 time.add(Calendar.MILLISECOND, (int) ((cooldown * 1000.0) % 1000.0));
@@ -54,6 +66,25 @@ public class Teleport implements net.ess3.api.ITeleport {
         if (!check) {
             teleportOwner.setLastTeleportTimestamp(time.getTimeInMillis());
         }
+    }
+
+    private boolean cooldownApplies() {
+        boolean applies = true;
+        String globalBypassPerm = "essentials.teleport.cooldown.bypass";
+        switch (tpType) {
+            case NORMAL:
+                applies = !teleportOwner.isAuthorized(globalBypassPerm);
+                break;
+            case BACK:
+                applies = !(teleportOwner.isAuthorized(globalBypassPerm) &&
+                        teleportOwner.isAuthorized("essentials.teleport.cooldown.bypass.back"));
+                break;
+            case TPA:
+                applies = !(teleportOwner.isAuthorized(globalBypassPerm) &&
+                        teleportOwner.isAuthorized("essentials.teleport.cooldown.bypass.tpa"));
+                break;
+        }
+        return applies;
     }
 
     private void warnUser(final IUser user, final double delay) {
@@ -93,7 +124,11 @@ public class Teleport implements net.ess3.api.ITeleport {
                 if (teleportee.getBase().isInsideVehicle()) {
                     teleportee.getBase().leaveVehicle();
                 }
-                teleportee.getBase().teleport(LocationUtil.getSafeDestination(teleportee, loc), cause);
+                if (ess.getSettings().isForceDisableTeleportSafety()) {
+                    teleportee.getBase().teleport(loc, cause);
+                } else {
+                    teleportee.getBase().teleport(LocationUtil.getSafeDestination(teleportee, loc), cause);
+                }
             } else {
                 throw new Exception(tl("unsafeTeleportDestination", loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
             }
@@ -101,7 +136,11 @@ public class Teleport implements net.ess3.api.ITeleport {
             if (teleportee.getBase().isInsideVehicle()) {
                 teleportee.getBase().leaveVehicle();
             }
-            teleportee.getBase().teleport(LocationUtil.getRoundedDestination(loc), cause);
+            if (ess.getSettings().isForceDisableTeleportSafety()) {
+                teleportee.getBase().teleport(loc, cause);
+            } else {
+                teleportee.getBase().teleport(LocationUtil.getRoundedDestination(loc), cause);
+            }
         }
     }
 
@@ -157,8 +196,7 @@ public class Teleport implements net.ess3.api.ITeleport {
         }
 
         cooldown(true);
-        if (delay <= 0 || teleportOwner.isAuthorized("essentials.teleport.timer.bypass")
-                || teleportee.isAuthorized("essentials.teleport.timer.bypass")) {
+        if (delay <= 0 || teleportOwner.isAuthorized("essentials.teleport.timer.bypass") || teleportee.isAuthorized("essentials.teleport.timer.bypass")) {
             cooldown(false);
             now(teleportee, target, cause);
             if (cashCharge != null) {
@@ -223,6 +261,7 @@ public class Teleport implements net.ess3.api.ITeleport {
     //The back function is a wrapper used to teleportPlayer a player /back to their previous location.
     @Override
     public void back(Trade chargeFor) throws Exception {
+        tpType = TeleportType.BACK;
         final Location loc = teleportOwner.getLastLocation();
         teleportOwner.sendMessage(tl("backUsageMsg", loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
         teleport(teleportOwner, new LocationTarget(loc), chargeFor, TeleportCause.COMMAND);
@@ -232,6 +271,10 @@ public class Teleport implements net.ess3.api.ITeleport {
     @Override
     public void back() throws Exception {
         now(teleportOwner, new LocationTarget(teleportOwner.getLastLocation()), TeleportCause.COMMAND);
+    }
+
+    public void setTpType(TeleportType tpType) {
+        this.tpType = tpType;
     }
 
     //If we need to cancelTimer a pending teleportPlayer call this method

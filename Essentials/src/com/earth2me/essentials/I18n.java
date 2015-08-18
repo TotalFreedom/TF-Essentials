@@ -1,5 +1,7 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,11 +13,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import net.ess3.api.IEssentials;
-import org.bukkit.Bukkit;
+
 
 public class I18n implements net.ess3.api.II18n {
-
     private static I18n instance;
     private static final String MESSAGES = "messages";
     private final transient Locale defaultLocale = Locale.getDefault();
@@ -127,14 +127,11 @@ public class I18n implements net.ess3.api.II18n {
     }
 
     public static String capitalCase(final String input) {
-        return input == null || input.length() == 0
-                ? input
-                : input.toUpperCase(Locale.ENGLISH).charAt(0)
-                + input.toLowerCase(Locale.ENGLISH).substring(1);
+        return input == null || input.length() == 0 ? input : input.toUpperCase(Locale.ENGLISH).charAt(0) + input.toLowerCase(Locale.ENGLISH).substring(1);
     }
 
-    private static class FileResClassLoader extends ClassLoader {
 
+    private static class FileResClassLoader extends ClassLoader {
         private final transient File dataFolder;
 
         FileResClassLoader(final ClassLoader classLoader, final IEssentials ess) {

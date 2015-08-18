@@ -1,7 +1,5 @@
 package com.earth2me.essentials.signs;
 
-import java.util.Set;
-import java.util.logging.Level;
 import net.ess3.api.IEssentials;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,8 +10,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class SignPlayerListener implements Listener {
+import java.util.HashSet;
+import java.util.logging.Level;
 
+
+public class SignPlayerListener implements Listener {
     private final transient IEssentials ess;
 
     public SignPlayerListener(final IEssentials ess) {
@@ -37,7 +38,7 @@ public class SignPlayerListener implements Listener {
         if (event.isCancelled() && event.getAction() == Action.RIGHT_CLICK_AIR) {
             Block targetBlock = null;
             try {
-                targetBlock = event.getPlayer().getTargetBlock((Set<Material>) null, 5);
+                targetBlock = event.getPlayer().getTargetBlock((HashSet<Byte>) null, 5);
             } catch (IllegalStateException ex) {
                 if (ess.getSettings().isDebug()) {
                     ess.getLogger().log(Level.WARNING, ex.getMessage(), ex);
@@ -63,8 +64,7 @@ public class SignPlayerListener implements Listener {
             }
         } else {
             for (EssentialsSign sign : ess.getSettings().enabledSigns()) {
-                if (sign.areHeavyEventRequired() && sign.getBlocks().contains(block.getType())
-                        && !sign.onBlockInteract(block, event.getPlayer(), ess)) {
+                if (sign.areHeavyEventRequired() && sign.getBlocks().contains(block.getType()) && !sign.onBlockInteract(block, event.getPlayer(), ess)) {
                     event.setCancelled(true);
                     return;
                 }

@@ -1,14 +1,8 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Mob.MobException;
 import com.earth2me.essentials.utils.LocationUtil;
 import com.earth2me.essentials.utils.StringUtil;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import net.ess3.api.IEssentials;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,8 +12,12 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
-public class SpawnMob {
+import java.util.*;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class SpawnMob {
     public static String mobList(final User user) {
         final Set<String> mobList = Mob.getMobList();
         final Set<String> availableList = new HashSet<String>();

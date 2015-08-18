@@ -1,17 +1,18 @@
 package com.earth2me.essentials;
 
 import com.earth2me.essentials.commands.IEssentialsCommand;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import net.ess3.api.ITeleport;
 import net.ess3.api.MaxMoneyException;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public interface IUser {
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+
+public interface IUser {
     boolean isAuthorized(String node);
 
     boolean isAuthorized(IEssentialsCommand cmd);
@@ -49,10 +50,11 @@ public interface IUser {
     void setAfk(final boolean set);
 
     /**
-     * 'Hidden' Represents when a player is hidden from others. This status includes when the player is hidden via other supported plugins. Use isVanished() if you want to check if a user is vanished
-     * by Essentials.
+     * 'Hidden' Represents when a player is hidden from others. This status includes when the player is hidden via other
+     * supported plugins. Use isVanished() if you want to check if a user is vanished by Essentials.
      *
      * @return If the user is hidden or not
+     *
      * @see isVanished
      */
     boolean isHidden();
@@ -76,10 +78,12 @@ public interface IUser {
     boolean hasInvulnerabilityAfterTeleport();
 
     /**
-     * 'Vanished' Represents when a player is hidden from others by Essentials. This status does NOT include when the player is hidden via other plugins. Use isHidden() if you want to check if a user
-     * is vanished by any supported plugin.
+     * 'Vanished' Represents when a player is hidden from others by Essentials. This status does NOT include when the
+     * player is hidden via other plugins. Use isHidden() if you want to check if a user is vanished by any supported
+     * plugin.
      *
      * @return If the user is vanished or not
+     *
      * @see isHidden
      */
     boolean isVanished();
@@ -88,7 +92,7 @@ public interface IUser {
 
     boolean isIgnoreExempt();
 
-    public void sendMessage(String message);
+    void sendMessage(String message);
 
     /*
      * UserData
@@ -123,6 +127,10 @@ public interface IUser {
 
     boolean isAfk();
 
+    void setIgnoreMsg(boolean ignoreMsg);
+
+    boolean isIgnoreMsg();
+
     void setConfigProperty(String node, Object object);
 
     Set<String> getConfigKeys();
@@ -138,5 +146,5 @@ public interface IUser {
 
     CommandSource getSource();
 
-    public String getName();
+    String getName();
 }

@@ -1,13 +1,14 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import net.ess3.api.events.GodStatusChangeEvent;
 import org.bukkit.Server;
 
-public class Commandgod extends EssentialsToggleCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandgod extends EssentialsToggleCommand {
     public Commandgod() {
         super("god", "essentials.god.others");
     }

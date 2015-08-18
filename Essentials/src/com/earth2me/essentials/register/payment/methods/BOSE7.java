@@ -4,15 +4,15 @@ import com.earth2me.essentials.register.payment.Method;
 import cosine.boseconomy.BOSEconomy;
 import org.bukkit.plugin.Plugin;
 
+
 /**
  * BOSEconomy 7 Implementation of Method
  *
  * @author Acrobot
  * @author Nijikokun <nijikokun@shortmail.com> (@nijikokun) @copyright (c) 2011 @license AOL license
- * <http://aol.nexua.org>
+ *         <http://aol.nexua.org>
  */
 public class BOSE7 implements Method {
-
     private BOSEconomy BOSEconomy;
 
     @Override
@@ -112,9 +112,7 @@ public class BOSE7 implements Method {
 
     @Override
     public boolean isCompatible(Plugin plugin) {
-        return plugin.getDescription().getName().equalsIgnoreCase("boseconomy")
-                && plugin instanceof BOSEconomy
-                && !plugin.getDescription().getVersion().equals("0.6.2");
+        return plugin.getDescription().getName().equalsIgnoreCase("boseconomy") && plugin instanceof BOSEconomy && !plugin.getDescription().getVersion().equals("0.6.2");
     }
 
     @Override
@@ -122,8 +120,8 @@ public class BOSE7 implements Method {
         BOSEconomy = (BOSEconomy) plugin;
     }
 
-    public class BOSEAccount implements MethodAccount {
 
+    public class BOSEAccount implements MethodAccount {
         private final String name;
         private final BOSEconomy BOSEconomy;
 
@@ -191,8 +189,8 @@ public class BOSE7 implements Method {
         }
     }
 
-    public class BOSEBankAccount implements MethodBankAccount {
 
+    public class BOSEBankAccount implements MethodBankAccount {
         private final String bank;
         private final BOSEconomy BOSEconomy;
 

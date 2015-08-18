@@ -1,16 +1,18 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.User;
-import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class Commandworld extends EssentialsCommand {
+import java.util.List;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandworld extends EssentialsCommand {
     public Commandworld() {
         super("world");
     }

@@ -1,16 +1,13 @@
 package com.earth2me.essentials;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
 import net.ess3.api.IEssentials;
 import org.bukkit.entity.Player;
 
-public class EssentialsTimer implements Runnable {
+import java.util.*;
+import java.util.logging.Level;
 
+
+public class EssentialsTimer implements Runnable {
     private final transient IEssentials ess;
     private final transient Set<UUID> onlineUsers = new HashSet<UUID>();
     private transient long lastPoll = System.nanoTime();

@@ -1,13 +1,14 @@
 package com.earth2me.essentials.signs;
 
 import com.earth2me.essentials.ChargeException;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.User;
 import net.ess3.api.IEssentials;
 
-public class SignTime extends EssentialsSign {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class SignTime extends EssentialsSign {
     public SignTime() {
         super("Time");
     }

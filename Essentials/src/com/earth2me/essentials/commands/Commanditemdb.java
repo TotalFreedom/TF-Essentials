@@ -1,13 +1,14 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 
-public class Commanditemdb extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commanditemdb extends EssentialsCommand {
     public Commanditemdb() {
         super("itemdb");
     }

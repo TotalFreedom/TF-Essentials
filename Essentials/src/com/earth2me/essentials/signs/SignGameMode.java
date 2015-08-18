@@ -1,16 +1,18 @@
 package com.earth2me.essentials.signs;
 
 import com.earth2me.essentials.ChargeException;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.User;
-import java.util.Locale;
 import net.ess3.api.IEssentials;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-public class SignGameMode extends EssentialsSign {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class SignGameMode extends EssentialsSign {
     public SignGameMode() {
         super("GameMode");
     }

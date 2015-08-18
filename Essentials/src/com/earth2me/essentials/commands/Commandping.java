@@ -1,13 +1,13 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.utils.FormatUtil;
 import org.bukkit.Server;
 
+import static com.earth2me.essentials.I18n.tl;
+
 // This command can be used to echo messages to the users screen, mostly useless but also an #EasterEgg
 public class Commandping extends EssentialsCommand {
-
     public Commandping() {
         super("ping");
     }

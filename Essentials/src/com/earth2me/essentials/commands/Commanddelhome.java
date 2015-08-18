@@ -1,13 +1,15 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
-import java.util.Locale;
 import org.bukkit.Server;
 
-public class Commanddelhome extends EssentialsCommand {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commanddelhome extends EssentialsCommand {
     public Commanddelhome() {
         super("delhome");
     }

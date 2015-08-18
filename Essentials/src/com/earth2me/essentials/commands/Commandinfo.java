@@ -7,8 +7,8 @@ import com.earth2me.essentials.textreader.TextInput;
 import com.earth2me.essentials.textreader.TextPager;
 import org.bukkit.Server;
 
-public class Commandinfo extends EssentialsCommand {
 
+public class Commandinfo extends EssentialsCommand {
     public Commandinfo() {
         super("info");
     }

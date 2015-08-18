@@ -1,20 +1,22 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.commands.WarpNotFoundException;
 import com.earth2me.essentials.utils.StringUtil;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.ess3.api.InvalidNameException;
 import net.ess3.api.InvalidWorldException;
 import org.bukkit.Location;
 import org.bukkit.Server;
 
-public class Warps implements IConf, net.ess3.api.IWarps {
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Warps implements IConf, net.ess3.api.IWarps {
     private static final Logger logger = Logger.getLogger("Essentials");
     private final Map<StringIgnoreCase, EssentialsConf> warpPoints = new HashMap<StringIgnoreCase, EssentialsConf>();
     private final File warpsFolder;
@@ -121,7 +123,6 @@ public class Warps implements IConf, net.ess3.api.IWarps {
     }
 
     private static class StringIgnoreCase {
-
         private final String string;
 
         public StringIgnoreCase(String string) {

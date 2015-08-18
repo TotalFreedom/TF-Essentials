@@ -1,15 +1,17 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.OfflinePlayer;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.DateUtil;
-import java.util.logging.Level;
 import org.bukkit.Server;
 
-public class Commandmute extends EssentialsCommand {
+import java.util.logging.Level;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandmute extends EssentialsCommand {
     public Commandmute() {
         super("mute");
     }

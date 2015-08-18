@@ -1,17 +1,19 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.DescParseTickFormat;
-import java.util.*;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public class Commandptime extends EssentialsCommand {
+import java.util.*;
 
-    private static final Set<String> getAliases = new HashSet<String>();
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandptime extends EssentialsCommand {
+    private static final Set<String> getAliases = new HashSet<>();
 
     static {
         getAliases.add("get");
@@ -144,7 +146,7 @@ public class Commandptime extends EssentialsCommand {
      * Used to parse an argument of the type "users(s) selector"
      */
     private Set<User> getUsers(final Server server, final CommandSource sender, final String selector) throws Exception {
-        final Set<User> users = new TreeSet<User>(new UserNameComparator());
+        final Set<User> users = new TreeSet<>(new UserNameComparator());
         // If there is no selector we want the sender itself. Or all users if sender isn't a user.
         if (selector == null) {
             if (sender.isPlayer()) {
@@ -167,12 +169,14 @@ public class Commandptime extends EssentialsCommand {
 
         if (user != null) {
             users.add(user);
-        } // If that fails, Is the argument something like "*" or "all"?
+        }
+        // If that fails, Is the argument something like "*" or "all"?
         else if (selector.equalsIgnoreCase("*") || selector.equalsIgnoreCase("all")) {
             for (User u : ess.getOnlineUsers()) {
                 users.add(u);
             }
-        } // We failed to understand the world target...
+        }
+        // We failed to understand the world target...
         else {
             throw new PlayerNotFoundException();
         }
@@ -181,8 +185,8 @@ public class Commandptime extends EssentialsCommand {
     }
 }
 
-class UserNameComparator implements Comparator<User> {
 
+class UserNameComparator implements Comparator<User> {
     @Override
     public int compare(User a, User b) {
         return a.getName().compareTo(b.getName());

@@ -4,21 +4,21 @@ import com.earth2me.essentials.ChargeException;
 import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.FormatUtil;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 import net.ess3.api.MaxMoneyException;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
-public abstract class EssentialsLoopCommand extends EssentialsCommand {
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
+
+public abstract class EssentialsLoopCommand extends EssentialsCommand {
     public EssentialsLoopCommand(String command) {
         super(command);
     }
 
-    protected void loopOfflinePlayers(final Server server, final CommandSource sender, final boolean multipleStringMatches, boolean matchWildcards, final String searchTerm, final String[] commandArgs)
-            throws PlayerNotFoundException, NotEnoughArgumentsException, PlayerExemptException, ChargeException, MaxMoneyException {
+    protected void loopOfflinePlayers(final Server server, final CommandSource sender, final boolean multipleStringMatches, boolean matchWildcards, final String searchTerm, final String[] commandArgs) throws PlayerNotFoundException, NotEnoughArgumentsException, PlayerExemptException, ChargeException, MaxMoneyException {
         if (searchTerm.isEmpty()) {
             throw new PlayerNotFoundException();
         }
@@ -55,8 +55,7 @@ public abstract class EssentialsLoopCommand extends EssentialsCommand {
         }
     }
 
-    protected void loopOnlinePlayers(final Server server, final CommandSource sender, final boolean multipleStringMatches, boolean matchWildcards, final String searchTerm, final String[] commandArgs)
-            throws PlayerNotFoundException, NotEnoughArgumentsException, PlayerExemptException, ChargeException, MaxMoneyException {
+    protected void loopOnlinePlayers(final Server server, final CommandSource sender, final boolean multipleStringMatches, boolean matchWildcards, final String searchTerm, final String[] commandArgs) throws PlayerNotFoundException, NotEnoughArgumentsException, PlayerExemptException, ChargeException, MaxMoneyException {
         if (searchTerm.isEmpty()) {
             throw new PlayerNotFoundException();
         }
@@ -108,6 +107,5 @@ public abstract class EssentialsLoopCommand extends EssentialsCommand {
         }
     }
 
-    protected abstract void updatePlayer(Server server, CommandSource sender, User user, String[] args)
-            throws NotEnoughArgumentsException, PlayerExemptException, ChargeException, MaxMoneyException;
+    protected abstract void updatePlayer(Server server, CommandSource sender, User user, String[] args) throws NotEnoughArgumentsException, PlayerExemptException, ChargeException, MaxMoneyException;
 }

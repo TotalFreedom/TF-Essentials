@@ -2,14 +2,15 @@ package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.Console;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.IReplyTo;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.FormatUtil;
 import org.bukkit.Server;
 
-public class Commandr extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandr extends EssentialsCommand {
     public Commandr() {
         super("r");
     }

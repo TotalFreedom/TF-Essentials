@@ -1,9 +1,15 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.craftbukkit.InventoryWorkaround;
 import com.earth2me.essentials.craftbukkit.SetExpFix;
 import com.earth2me.essentials.utils.NumberUtil;
+import net.ess3.api.IEssentials;
+import net.ess3.api.IUser;
+import net.ess3.api.MaxMoneyException;
+import org.bukkit.Location;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,15 +20,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.ess3.api.IEssentials;
-import net.ess3.api.IUser;
-import net.ess3.api.MaxMoneyException;
-import org.bukkit.Location;
-import org.bukkit.entity.Item;
-import org.bukkit.inventory.ItemStack;
+
+import static com.earth2me.essentials.I18n.tl;
+
 
 public class Trade {
-
     private final transient String command;
     private final transient Trade fallbackTrade;
     private final transient BigDecimal money;
@@ -30,15 +32,15 @@ public class Trade {
     private final transient Integer exp;
     private final transient IEssentials ess;
 
-    public enum TradeType {
 
+    public enum TradeType {
         MONEY,
         EXP,
         ITEM
     }
 
-    public enum OverflowType {
 
+    public enum OverflowType {
         ABORT,
         DROP,
         RETURN
@@ -84,26 +86,20 @@ public class Trade {
             ess.getLogger().log(Level.INFO, "checking if " + user.getName() + " can afford charge.");
         }
 
-        if (getMoney() != null
-                && getMoney().signum() > 0
-                && !user.canAfford(getMoney())) {
+        if (getMoney() != null && getMoney().signum() > 0 && !user.canAfford(getMoney())) {
             throw new ChargeException(tl("notEnoughMoney", NumberUtil.displayCurrency(getMoney(), ess)));
         }
 
-        if (getItemStack() != null
-                && !user.getBase().getInventory().containsAtLeast(itemStack, itemStack.getAmount())) {
+        if (getItemStack() != null && !user.getBase().getInventory().containsAtLeast(itemStack, itemStack.getAmount())) {
             throw new ChargeException(tl("missingItems", getItemStack().getAmount(), ess.getItemDb().name(getItemStack())));
         }
 
         BigDecimal money;
-        if (command != null && !command.isEmpty()
-                && (money = getCommandCost(user)).signum() > 0
-                && !user.canAfford(money)) {
+        if (command != null && !command.isEmpty() && (money = getCommandCost(user)).signum() > 0 && !user.canAfford(money)) {
             throw new ChargeException(tl("notEnoughMoney", NumberUtil.displayCurrency(money, ess)));
         }
 
-        if (exp != null && exp > 0
-                && SetExpFix.getTotalExperience(user.getBase()) < exp) {
+        if (exp != null && exp > 0 && SetExpFix.getTotalExperience(user.getBase()) < exp) {
             throw new ChargeException(tl("notEnoughExperience"));
         }
     }
@@ -259,20 +255,19 @@ public class Trade {
                 ess.getLogger().log(Level.INFO, "calculated command (" + command + ") cost for " + user.getName() + " as " + cost);
             }
         }
-        if (cost.signum() != 0 && (user.isAuthorized("essentials.nocommandcost.all")
-                || user.isAuthorized("essentials.nocommandcost." + command))) {
+        if (cost.signum() != 0 && (user.isAuthorized("essentials.nocommandcost.all") || user.isAuthorized("essentials.nocommandcost." + command))) {
             return BigDecimal.ZERO;
         }
         return cost;
     }
+
     private static FileWriter fw = null;
 
     public static void log(String type, String subtype, String event, String sender, Trade charge, String receiver, Trade pay, Location loc, IEssentials ess) {
         //isEcoLogUpdateEnabled() - This refers to log entries with no location, ie API updates #EasterEgg
         //isEcoLogEnabled() - This refers to log entries with with location, ie /pay /sell and eco signs.
 
-        if ((loc == null && !ess.getSettings().isEcoLogUpdateEnabled())
-                || (loc != null && !ess.getSettings().isEcoLogEnabled())) {
+        if ((loc == null && !ess.getSettings().isEcoLogUpdateEnabled()) || (loc != null && !ess.getSettings().isEcoLogEnabled())) {
             return;
         }
         if (fw == null) {

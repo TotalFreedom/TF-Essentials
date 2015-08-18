@@ -1,11 +1,12 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import org.bukkit.Server;
 
-public class Commandtpa extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandtpa extends EssentialsCommand {
     public Commandtpa() {
         super("tpa");
     }
@@ -23,8 +24,7 @@ public class Commandtpa extends EssentialsCommand {
         if (!player.isTeleportEnabled()) {
             throw new Exception(tl("teleportDisabled", player.getDisplayName()));
         }
-        if (user.getWorld() != player.getWorld() && ess.getSettings().isWorldTeleportPermissions()
-                && !user.isAuthorized("essentials.worlds." + player.getWorld().getName())) {
+        if (user.getWorld() != player.getWorld() && ess.getSettings().isWorldTeleportPermissions() && !user.isAuthorized("essentials.worlds." + player.getWorld().getName())) {
             throw new Exception(tl("noPerm", "essentials.worlds." + player.getWorld().getName()));
         }
         if (!player.isIgnoredPlayer(user)) {

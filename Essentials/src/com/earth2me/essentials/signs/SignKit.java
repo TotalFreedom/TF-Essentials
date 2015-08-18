@@ -1,15 +1,18 @@
 package com.earth2me.essentials.signs;
 
-import com.earth2me.essentials.*;
-import static com.earth2me.essentials.I18n.tl;
+import com.earth2me.essentials.ChargeException;
+import com.earth2me.essentials.Kit;
+import com.earth2me.essentials.Trade;
+import com.earth2me.essentials.User;
 import com.earth2me.essentials.commands.NoChargeException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import net.ess3.api.IEssentials;
 
-public class SignKit extends EssentialsSign {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class SignKit extends EssentialsSign {
     public SignKit() {
         super("Kit");
     }
@@ -41,8 +44,7 @@ public class SignKit extends EssentialsSign {
     protected boolean onSignInteract(final ISign sign, final User player, final String username, final IEssentials ess) throws SignException, ChargeException {
         final String kitName = sign.getLine(1).toLowerCase(Locale.ENGLISH).trim();
         final String group = sign.getLine(2).trim();
-        if ((!group.isEmpty() && ("§2Everyone".equals(group) || player.inGroup(group)))
-                || (group.isEmpty() && (player.isAuthorized("essentials.kits." + kitName)))) {
+        if ((!group.isEmpty() && ("§2Everyone".equals(group) || player.inGroup(group))) || (group.isEmpty() && (player.isAuthorized("essentials.kits." + kitName)))) {
             final Trade charge = getTrade(sign, 3, ess);
             charge.isAffordableFor(player);
             try {

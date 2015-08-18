@@ -1,14 +1,14 @@
 package com.earth2me.essentials.craftbukkit;
 
 import com.earth2me.essentials.User;
-import java.util.Iterator;
-import java.util.Set;
 import net.ess3.api.IEssentials;
 import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 
-public class BanLookup {
+import java.util.Set;
 
+
+public class BanLookup {
     public static Boolean isBanned(IEssentials ess, User user) {
         return isBanned(ess, user.getName());
     }

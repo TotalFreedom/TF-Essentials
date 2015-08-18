@@ -1,17 +1,18 @@
 package com.earth2me.essentials.craftbukkit;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /*
  * This class can be removed when https://github.com/Bukkit/CraftBukkit/pull/193 is accepted to CraftBukkit
  */
-public final class InventoryWorkaround {
 
+public final class InventoryWorkaround {
     private InventoryWorkaround() {
     }
 
@@ -52,11 +53,13 @@ public final class InventoryWorkaround {
     public static Map<Integer, ItemStack> addOversizedItems(final Inventory inventory, final int oversizedStacks, final ItemStack... items) {
         final Map<Integer, ItemStack> leftover = new HashMap<Integer, ItemStack>();
 
-        /*
+		/*
          * TODO: some optimization - Create a 'firstPartial' with a 'fromIndex' - Record the lastPartial per Material -
-         * Cache firstEmpty result
-         */
+		 * Cache firstEmpty result
+		 */
+
         // combine items
+
         final ItemStack[] combined = new ItemStack[items.length];
         for (ItemStack item : items) {
             if (item == null || item.getAmount() < 1) {
@@ -73,6 +76,7 @@ public final class InventoryWorkaround {
                 }
             }
         }
+
 
         for (int i = 0; i < combined.length; i++) {
             final ItemStack item = combined[i];

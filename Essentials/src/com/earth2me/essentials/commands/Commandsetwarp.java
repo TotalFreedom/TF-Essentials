@@ -1,6 +1,5 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.utils.NumberUtil;
@@ -9,8 +8,10 @@ import net.ess3.api.InvalidWorldException;
 import org.bukkit.Location;
 import org.bukkit.Server;
 
-public class Commandsetwarp extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandsetwarp extends EssentialsCommand {
     public Commandsetwarp() {
         super("setwarp");
     }
@@ -31,8 +32,7 @@ public class Commandsetwarp extends EssentialsCommand {
 
         try {
             warpLoc = warps.getWarp(args[0]);
-        } catch (WarpNotFoundException ex) {
-        } catch (InvalidWorldException ex) {
+        } catch (WarpNotFoundException | InvalidWorldException ex) {
         }
 
         if (warpLoc == null || user.isAuthorized("essentials.warp.overwrite." + StringUtil.safeString(args[0]))) {

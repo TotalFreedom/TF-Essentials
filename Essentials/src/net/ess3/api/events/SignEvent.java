@@ -7,12 +7,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+
 /**
  * This handles common boilerplate for other SignEvent
- *
  */
 public class SignEvent extends Event implements Cancellable {
-
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled = false;
     ISign sign;

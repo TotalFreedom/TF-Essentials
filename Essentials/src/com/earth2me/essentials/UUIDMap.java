@@ -1,27 +1,19 @@
 package com.earth2me.essentials;
 
 import com.google.common.io.Files;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.bukkit.Bukkit;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
-import org.bukkit.Bukkit;
+
 
 public class UUIDMap {
-
     private final transient net.ess3.api.IEssentials ess;
     private File userList;
     private final transient Pattern splitPattern = Pattern.compile(",");
@@ -91,7 +83,7 @@ public class UUIDMap {
             ess.getLogger().log(Level.INFO, "Forcing usermap write to disk");
         }
         try {
-            Future<?> future = _writeUUIDMap();;
+            Future<?> future = _writeUUIDMap();
             if (future != null) {
                 future.get();
             }
@@ -112,8 +104,8 @@ public class UUIDMap {
         return future;
     }
 
-    private static class WriteRunner implements Runnable {
 
+    private static class WriteRunner implements Runnable {
         private final File location;
         private final File endFile;
         private final ConcurrentSkipListMap<String, UUID> names;

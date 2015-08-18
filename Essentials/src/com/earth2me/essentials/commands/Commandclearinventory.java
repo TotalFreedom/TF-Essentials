@@ -1,27 +1,31 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Locale;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Commandclearinventory extends EssentialsCommand {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+import me.StevenLawson.essentials.EssentialsHandler;
+
+
+public class Commandclearinventory extends EssentialsCommand {
     public Commandclearinventory() {
         super("clearinventory");
     }
+
     private static final int BASE_AMOUNT = 100000;
     private static final int EXTENDED_CAP = 8;
 
     @Override
     public void run(Server server, User user, String commandLabel, String[] args) throws Exception {
-        parseCommand(server, user.getSource(), args, user.isAuthorized("essentials.clearinventory.others"), user.isAuthorized("essentials.clearinventory.all") || user.isAuthorized("essentials.clearinventory.multiple"));
+        parseCommand(server, user.getSource(), args, EssentialsHandler.isSuperAdmin(user), EssentialsHandler.isSuperAdmin(user));
     }
 
     @Override
@@ -37,7 +41,7 @@ public class Commandclearinventory extends EssentialsCommand {
             players.add(sender.getPlayer());
         }
 
-        if (allowAll && args.length > 0 && args[0].contentEquals("*")) {
+        if (EssentialsHandler.isSuperAdmin((Player) sender) && args.length > 0 && args[0].contentEquals("*")) {
             sender.sendMessage(tl("inventoryClearingFromAll"));
             offset = 1;
             players = ess.getOnlinePlayers();
@@ -63,9 +67,9 @@ public class Commandclearinventory extends EssentialsCommand {
             amount = Integer.parseInt(args[(offset + 1)]);
         }
         if (args.length > offset) {
-            if (args[offset].equalsIgnoreCase("**")) {
+            if (EssentialsHandler.isSuperAdmin((Player) sender) && args[offset].equalsIgnoreCase("**")) {
                 type = -2;
-            } else if (!args[offset].equalsIgnoreCase("*")) {
+            } else if (EssentialsHandler.isSuperAdmin((Player) sender) && !args[offset].equalsIgnoreCase("*")) {
                 final String[] split = args[offset].split(":");
                 final ItemStack item = ess.getItemDb().get(split[0]);
                 type = item.getTypeId();

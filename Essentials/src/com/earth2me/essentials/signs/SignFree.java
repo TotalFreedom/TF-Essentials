@@ -1,6 +1,5 @@
 package com.earth2me.essentials.signs;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.User;
 import net.ess3.api.IEssentials;
@@ -9,8 +8,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class SignFree extends EssentialsSign {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class SignFree extends EssentialsSign {
     public SignFree() {
         super("Free");
     }

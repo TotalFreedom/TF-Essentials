@@ -1,34 +1,23 @@
 package com.earth2me.essentials.perm;
 
 import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.perm.impl.*;
+import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 public class PermissionsHandler implements IPermissionsHandler {
-
-    private transient IPermissionsHandler handler = new NullPermissionsHandler();
+    private transient IPermissionsHandler handler = null;
     private transient String defaultGroup = "default";
     private final transient Essentials ess;
-    private static final Logger LOGGER = Logger.getLogger("Essentials");
     private transient boolean useSuperperms = false;
-
-    public PermissionsHandler(final Essentials plugin) {
-        this.ess = plugin;
-    }
 
     public PermissionsHandler(final Essentials plugin, final boolean useSuperperms) {
         this.ess = plugin;
         this.useSuperperms = useSuperperms;
-    }
-
-    public PermissionsHandler(final Essentials plugin, final String defaultGroup) {
-        this.ess = plugin;
-        this.defaultGroup = defaultGroup;
     }
 
     @Override
@@ -38,7 +27,7 @@ public class PermissionsHandler implements IPermissionsHandler {
         if (group == null) {
             group = defaultGroup;
         }
-        checkPermLag(start);
+        checkPermLag(start, String.format("Getting group for %s", base.getName()));
         return group;
     }
 
@@ -49,7 +38,7 @@ public class PermissionsHandler implements IPermissionsHandler {
         if (groups == null || groups.isEmpty()) {
             groups = Collections.singletonList(defaultGroup);
         }
-        checkPermLag(start);
+        checkPermLag(start, String.format("Getting groups for %s", base.getName()));
         return Collections.unmodifiableList(groups);
     }
 
@@ -62,7 +51,7 @@ public class PermissionsHandler implements IPermissionsHandler {
     public boolean inGroup(final Player base, final String group) {
         final long start = System.nanoTime();
         final boolean result = handler.inGroup(base, group);
-        checkPermLag(start);
+        checkPermLag(start, String.format("Checking if %s is in group %s", base.getName(), group));
         return result;
     }
 
@@ -78,7 +67,7 @@ public class PermissionsHandler implements IPermissionsHandler {
         if (prefix == null) {
             prefix = "";
         }
-        checkPermLag(start);
+        checkPermLag(start, String.format("Getting prefix for %s", base.getName()));
         return prefix;
     }
 
@@ -89,78 +78,57 @@ public class PermissionsHandler implements IPermissionsHandler {
         if (suffix == null) {
             suffix = "";
         }
-        checkPermLag(start);
+        checkPermLag(start, String.format("Getting suffix for %s", base.getName()));
         return suffix;
     }
 
+    @Override
+    public boolean tryProvider() {
+        return true;
+    }
+
     public void checkPermissions() {
-        final PluginManager pluginManager = ess.getServer().getPluginManager();
-
-        final Plugin permExPlugin = pluginManager.getPlugin("PermissionsEx");
-        if (permExPlugin != null && permExPlugin.isEnabled()) {
-            if (!(handler instanceof PermissionsExHandler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using PermissionsEx based permissions.");
-                handler = new PermissionsExHandler();
+        // load and assign a handler
+        List<Class<? extends SuperpermsHandler>> providerClazz = Arrays.asList(
+                BPermissions2Handler.class,
+                PermissionsExHandler.class,
+                PrivilegesHandler.class,
+                SimplyPermsHandler.class,
+                GenericVaultHandler.class,
+                SuperpermsHandler.class
+        );
+        for (Class<? extends IPermissionsHandler> providerClass : providerClazz) {
+            try {
+                IPermissionsHandler provider = providerClass.newInstance();
+                if (provider.tryProvider()) {
+                    this.handler = provider;
+                    break;
+                }
+            } catch (Throwable ignored) {
             }
-            return;
         }
-
-        final Plugin permBukkitPlugin = pluginManager.getPlugin("PermissionsBukkit");
-        if (permBukkitPlugin != null && permBukkitPlugin.isEnabled()) {
-            if (!(handler instanceof PermissionsBukkitHandler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using PermissionsBukkit based permissions.");
-                handler = new PermissionsBukkitHandler(permBukkitPlugin);
-            }
-            return;
+        if (handler == null) {
+            handler = new ConfigPermissionsHandler(ess);
         }
-
-        final Plugin simplyPermsPlugin = pluginManager.getPlugin("SimplyPerms");
-        if (simplyPermsPlugin != null && simplyPermsPlugin.isEnabled()) {
-            if (!(handler instanceof SimplyPermsHandler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using SimplyPerms based permissions.");
-                handler = new SimplyPermsHandler(simplyPermsPlugin);
-            }
-            return;
+        if (useSuperperms && handler instanceof ConfigPermissionsHandler) {
+            handler = new SuperpermsHandler();
         }
-
-        final Plugin privPlugin = pluginManager.getPlugin("Privileges");
-        if (privPlugin != null && privPlugin.isEnabled()) {
-            if (!(handler instanceof PrivilegesHandler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using Privileges based permissions.");
-                handler = new PrivilegesHandler(privPlugin);
+        // output handler info
+        if (handler instanceof GenericVaultHandler) {
+            String enabledPermsPlugin = ((GenericVaultHandler) handler).getEnabledPermsPlugin();
+            if (enabledPermsPlugin == null) enabledPermsPlugin = "generic";
+            ess.getLogger().info("Using Vault based permissions (" + enabledPermsPlugin + ")");
+        } else if (handler.getClass() == SuperpermsHandler.class) {
+            if (handler.tryProvider()) {
+                ess.getLogger().warning("Detected supported permissions plugin " +
+                        ((SuperpermsHandler) handler).getEnabledPermsPlugin() + " without Vault installed.");
+                ess.getLogger().warning("Features such as chat prefixes/suffixes and group-related functionality will not " +
+                        "work until you install Vault.");
             }
-            return;
-        }
-
-        final Plugin bPermPlugin = pluginManager.getPlugin("bPermissions");
-        if (bPermPlugin != null && bPermPlugin.isEnabled()) {
-            if (!(handler instanceof BPermissions2Handler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using bPermissions2 based permissions.");
-                handler = new BPermissions2Handler();
-            }
-            return;
-        }
-
-        final Plugin zPermsPlugin = pluginManager.getPlugin("zPermissions");
-        if (zPermsPlugin != null && zPermsPlugin.isEnabled()) {
-            if (!(handler instanceof ZPermissionsHandler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using zPermissions based permissions.");
-                handler = new ZPermissionsHandler(ess);
-            }
-            return;
-        }
-
-        if (useSuperperms) {
-            if (!(handler instanceof SuperpermsHandler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using superperms based permissions.");
-                handler = new SuperpermsHandler();
-            }
-        } else {
-            if (!(handler instanceof ConfigPermissionsHandler)) {
-                LOGGER.log(Level.INFO, "Essentials: Using config file enhanced permissions.");
-                LOGGER.log(Level.INFO, "Permissions listed in as player-commands will be given to all users.");
-                handler = new ConfigPermissionsHandler(ess);
-            }
+            ess.getLogger().info("Using superperms-based permissions.");
+        } else if (handler.getClass() == ConfigPermissionsHandler.class) {
+            ess.getLogger().info("Using config file enhanced permissions.");
+            ess.getLogger().info("Permissions listed in as player-commands will be given to all users.");
         }
     }
 
@@ -169,13 +137,17 @@ public class PermissionsHandler implements IPermissionsHandler {
     }
 
     public String getName() {
-        return handler.getClass().getSimpleName().replace("Handler", "");
+        return handler.getClass().getSimpleName().replace("Provider", "");
+    }
+
+    private void checkPermLag(long start, String summary) {
+        final long elapsed = System.nanoTime() - start;
+        if (elapsed > ess.getSettings().getPermissionsLagWarning()) {
+            ess.getLogger().log(Level.WARNING, String.format("Permissions lag notice with (%s). Response took %fms. Summary: %s", getName(), elapsed / 1000000.0, summary));
+        }
     }
 
     private void checkPermLag(long start) {
-        final long elapsed = System.nanoTime() - start;
-        if (elapsed > ess.getSettings().getPermissionsLagWarning()) {
-            ess.getLogger().log(Level.INFO, "Lag Notice - Slow Permissions System (" + getName() + ") Response - Request took over {0}ms!", elapsed / 1000000.0);
-        }
+        checkPermLag(start, "not defined");
     }
 }

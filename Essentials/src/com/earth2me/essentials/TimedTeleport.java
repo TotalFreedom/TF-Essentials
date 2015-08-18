@@ -1,22 +1,24 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
-import java.util.UUID;
 import net.ess3.api.IEssentials;
 import net.ess3.api.IUser;
 import org.bukkit.Location;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class TimedTeleport implements Runnable {
+import java.util.UUID;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class TimedTeleport implements Runnable {
     private static final double MOVE_CONSTANT = 0.3;
     private final IUser teleportOwner;
     private final IEssentials ess;
     private final Teleport teleport;
     private final UUID timer_teleportee;
     private int timer_task = -1;
-    private final long timer_started;	// time this task was initiated
-    private final long timer_delay;		// how long to delay the teleportPlayer
+    private final long timer_started;    // time this task was initiated
+    private final long timer_delay;        // how long to delay the teleportPlayer
     private double timer_health;
     // note that I initially stored a clone of the location for reference, but...
     // when comparing locations, I got incorrect mismatches (rounding errors, looked like)
@@ -72,18 +74,13 @@ public class TimedTeleport implements Runnable {
             return;
         }
 
-        if (!timer_canMove
-                && (Math.round(currLocation.getX() * MOVE_CONSTANT) != timer_initX
-                || Math.round(currLocation.getY() * MOVE_CONSTANT) != timer_initY
-                || Math.round(currLocation.getZ() * MOVE_CONSTANT) != timer_initZ
-                || teleportUser.getBase().getHealth() < timer_health)) {
+        if (!timer_canMove && (Math.round(currLocation.getX() * MOVE_CONSTANT) != timer_initX || Math.round(currLocation.getY() * MOVE_CONSTANT) != timer_initY || Math.round(currLocation.getZ() * MOVE_CONSTANT) != timer_initZ || teleportUser.getBase().getHealth() < timer_health)) {
             // user moved, cancelTimer teleportPlayer
             cancelTimer(true);
             return;
         }
 
         class DelayedTeleportTask implements Runnable {
-
             @Override
             public void run() {
 

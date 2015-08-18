@@ -1,15 +1,16 @@
 package com.earth2me.essentials;
 
 import com.earth2me.essentials.utils.NumberUtil;
+import org.bukkit.potion.PotionEffectType;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.bukkit.potion.PotionEffectType;
+
 
 public class Potions {
-
     private static final Map<String, PotionEffectType> POTIONS = new HashMap<String, PotionEffectType>();
     private static final Map<String, PotionEffectType> ALIASPOTIONS = new HashMap<String, PotionEffectType>();
 

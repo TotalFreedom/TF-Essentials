@@ -1,19 +1,14 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.utils.FormatUtil;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import org.bukkit.Server;
-import org.bukkit.entity.Player;
+
+import java.util.*;
+
+import static com.earth2me.essentials.I18n.tl;
+
 
 public class PlayerList {
-
     // Cosmetic list formatting
     public static String listUsers(final IEssentials ess, final List<User> users, final String seperator) {
         final StringBuilder groupString = new StringBuilder();
@@ -64,8 +59,7 @@ public class PlayerList {
         Server server = ess.getServer();
         final Map<String, List<User>> playerList = new HashMap<String, List<User>>();
         for (User onlineUser : ess.getOnlineUsers()) {
-            if ((sender == null && !showHidden && onlineUser.isHidden())
-                    || (sender != null && !showHidden && !sender.getBase().canSee(onlineUser.getBase()))) {
+            if ((sender == null && !showHidden && onlineUser.isHidden()) || (sender != null && !showHidden && !sender.getBase().canSee(onlineUser.getBase()))) {
                 continue;
             }
             final String group = FormatUtil.stripFormat(FormatUtil.stripEssentialsFormat(onlineUser.getGroup().toLowerCase()));

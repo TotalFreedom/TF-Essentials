@@ -5,13 +5,13 @@ import me.ashtheking.currency.Currency;
 import me.ashtheking.currency.CurrencyList;
 import org.bukkit.plugin.Plugin;
 
+
 /**
  * MultiCurrency Method implementation.
  *
  * @author Acrobot @copyright (c) 2011 @license AOL license <http://aol.nexua.org>
  */
 public class MCUR implements Method {
-
     private Currency currencyList;
 
     @Override
@@ -88,9 +88,7 @@ public class MCUR implements Method {
 
     @Override
     public boolean isCompatible(Plugin plugin) {
-        return (plugin.getDescription().getName().equalsIgnoreCase("Currency")
-                || plugin.getDescription().getName().equalsIgnoreCase("MultiCurrency"))
-                && plugin instanceof Currency;
+        return (plugin.getDescription().getName().equalsIgnoreCase("Currency") || plugin.getDescription().getName().equalsIgnoreCase("MultiCurrency")) && plugin instanceof Currency;
     }
 
     @Override
@@ -98,8 +96,8 @@ public class MCUR implements Method {
         currencyList = (Currency) plugin;
     }
 
-    public class MCurrencyAccount implements MethodAccount {
 
+    public class MCurrencyAccount implements MethodAccount {
         private final String name;
 
         public MCurrencyAccount(String name) {

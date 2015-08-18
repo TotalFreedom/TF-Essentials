@@ -1,16 +1,17 @@
 package com.earth2me.essentials.storage;
 
-import java.io.Reader;
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
 import org.bukkit.plugin.Plugin;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-public class YamlStorageReader implements IStorageReader {
+import java.io.Reader;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
+
+public class YamlStorageReader implements IStorageReader {
     private transient static final Map<Class, Yaml> PREPARED_YAMLS = Collections.synchronizedMap(new HashMap<Class, Yaml>());
     private transient static final Map<Class, ReentrantLock> LOCKS = new HashMap<Class, ReentrantLock>();
     private transient final Reader reader;
@@ -65,8 +66,7 @@ public class YamlStorageReader implements IStorageReader {
         for (Field field : clazz.getDeclaredFields()) {
             prepareList(field, description, classes, constructor);
             prepareMap(field, description, classes, constructor);
-            if (StorageObject.class.isAssignableFrom(field.getType())
-                    && !classes.contains(field.getType())) {
+            if (StorageObject.class.isAssignableFrom(field.getType()) && !classes.contains(field.getType())) {
                 prepareConstructor(constructor, classes, field.getType());
             }
         }
@@ -77,8 +77,7 @@ public class YamlStorageReader implements IStorageReader {
         final ListType listType = field.getAnnotation(ListType.class);
         if (listType != null) {
             description.putListPropertyType(field.getName(), listType.value());
-            if (StorageObject.class.isAssignableFrom(listType.value())
-                    && !classes.contains(listType.value())) {
+            if (StorageObject.class.isAssignableFrom(listType.value()) && !classes.contains(listType.value())) {
                 prepareConstructor(constructor, classes, listType.value());
             }
         }
@@ -88,11 +87,8 @@ public class YamlStorageReader implements IStorageReader {
         final MapValueType mapType = field.getAnnotation(MapValueType.class);
         if (mapType != null) {
             final MapKeyType mapKeyType = field.getAnnotation(MapKeyType.class);
-            description.putMapPropertyType(field.getName(),
-                    mapKeyType == null ? String.class : mapKeyType.value(),
-                    mapType.value());
-            if (StorageObject.class.isAssignableFrom(mapType.value())
-                    && !classes.contains(mapType.value())) {
+            description.putMapPropertyType(field.getName(), mapKeyType == null ? String.class : mapKeyType.value(), mapType.value());
+            if (StorageObject.class.isAssignableFrom(mapType.value()) && !classes.contains(mapType.value())) {
                 prepareConstructor(constructor, classes, mapType.value());
             }
         }

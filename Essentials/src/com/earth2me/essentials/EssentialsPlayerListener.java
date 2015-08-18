@@ -1,17 +1,10 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.textreader.IText;
 import com.earth2me.essentials.textreader.KeywordReplacer;
 import com.earth2me.essentials.textreader.TextInput;
 import com.earth2me.essentials.textreader.TextPager;
 import com.earth2me.essentials.utils.LocationUtil;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.ess3.api.IEssentials;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -30,8 +23,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-public class EssentialsPlayerListener implements Listener {
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class EssentialsPlayerListener implements Listener {
     private static final Logger LOGGER = Logger.getLogger("Essentials");
     private final transient IEssentials ess;
 
@@ -80,9 +82,7 @@ public class EssentialsPlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerMove(final PlayerMoveEvent event) {
-        if (event.getFrom().getBlockX() == event.getTo().getBlockX()
-                && event.getFrom().getBlockZ() == event.getTo().getBlockZ()
-                && event.getFrom().getBlockY() == event.getTo().getBlockY()) {
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getBlockY() == event.getTo().getBlockY()) {
             return;
         }
 
@@ -129,10 +129,7 @@ public class EssentialsPlayerListener implements Listener {
             event.setQuitMessage(null);
         } else if (ess.getSettings().isCustomQuitMessage() && event.getQuitMessage() != null) {
             final Player player = event.getPlayer();
-            event.setQuitMessage(
-                    ess.getSettings().getCustomQuitMessage()
-                    .replace("{PLAYER}", player.getDisplayName())
-                    .replace("{USERNAME}", player.getName()));
+            event.setQuitMessage(ess.getSettings().getCustomQuitMessage().replace("{PLAYER}", player.getDisplayName()).replace("{USERNAME}", player.getName()));
         }
 
         if (ess.getSettings().removeGodOnDisconnect() && user.isGodModeEnabled()) {
@@ -181,6 +178,7 @@ public class EssentialsPlayerListener implements Listener {
         ess.getBackup().onPlayerJoin();
         final User dUser = ess.getUser(player);
 
+
         if (dUser.isNPC()) {
             dUser.setNPC(false);
         }
@@ -206,7 +204,6 @@ public class EssentialsPlayerListener implements Listener {
         final IText input = tempInput;
 
         class DelayJoinTask implements Runnable {
-
             @Override
             public void run() {
                 final User user = ess.getUser(player);
@@ -242,10 +239,8 @@ public class EssentialsPlayerListener implements Listener {
                 } else if (message == null) {
                     //NOOP
                 } else if (ess.getSettings().isCustomJoinMessage()) {
-                    ess.getServer().broadcastMessage(
-                            ess.getSettings().getCustomJoinMessage()
-                            .replace("{PLAYER}", player.getDisplayName())
-                            .replace("{USERNAME}", player.getName()));
+                    String msg = ess.getSettings().getCustomJoinMessage().replace("{PLAYER}", player.getDisplayName()).replace("{USERNAME}", player.getName()).replace("{UNIQUE}", String.valueOf(ess.getUserMap().getUniqueUsers()));
+                    ess.getServer().broadcastMessage(msg);
                 } else if (ess.getSettings().allowSilentJoinQuit()) {
                     ess.getServer().broadcastMessage(message);
                 }
@@ -259,7 +254,9 @@ public class EssentialsPlayerListener implements Listener {
                 if (!ess.getSettings().isCommandDisabled("mail") && user.isAuthorized("essentials.mail")) {
                     final List<String> mail = user.getMails();
                     if (mail.isEmpty()) {
-                        user.sendMessage(tl("noNewMail"));
+                        if (ess.getSettings().isNotifyNoNewMail()) {
+                            user.sendMessage(tl("noNewMail")); // Only notify if they want us to.
+                        }
                     } else {
                         user.sendMessage(tl("youHaveNewMail", mail.size()));
                     }
@@ -293,8 +290,7 @@ public class EssentialsPlayerListener implements Listener {
             loc = user.getBase().getBedSpawnLocation();
         }
         if (loc != null) {
-            final Location updateLoc = loc;
-            user.getBase().setCompassTarget(updateLoc);
+            user.getBase().setCompassTarget(loc);
         }
     }
 
@@ -342,10 +338,18 @@ public class EssentialsPlayerListener implements Listener {
     public void onPlayerCommandPreprocess(final PlayerCommandPreprocessEvent event) {
         final Player player = event.getPlayer();
         final String cmd = event.getMessage().toLowerCase(Locale.ENGLISH).split(" ")[0].replace("/", "").toLowerCase(Locale.ENGLISH);
+        if (ess.getUser(player).isMuted() && (ess.getSettings().getMuteCommands().contains(cmd) || ess.getSettings().getMuteCommands().contains("*"))) {
+            event.setCancelled(true);
+            player.sendMessage(tl("voiceSilenced"));
+            LOGGER.info(tl("mutedUserSpeaks", player.getName()));
+            return;
+        }
         if (ess.getSettings().getSocialSpyCommands().contains(cmd) || ess.getSettings().getSocialSpyCommands().contains("*")) {
-            for (User spyer : ess.getOnlineUsers()) {
-                if (spyer.isSocialSpyEnabled() && !player.equals(spyer.getBase())) {
-                    spyer.sendMessage(player.getDisplayName() + " : " + event.getMessage());
+            if(!player.hasPermission("essentials.chat.spy.exempt")) {
+                for (User spyer : ess.getOnlineUsers()) {
+                    if (spyer.isSocialSpyEnabled() && !player.equals(spyer.getBase())) {
+                        spyer.sendMessage(player.getDisplayName() + " : " + event.getMessage());
+                    }
                 }
             }
         } else if (!cmd.equalsIgnoreCase("afk")) {
@@ -357,8 +361,7 @@ public class EssentialsPlayerListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerChangedWorldFlyReset(final PlayerChangedWorldEvent event) {
         final User user = ess.getUser(event.getPlayer());
-        if ((user.getBase().getGameMode() != GameMode.CREATIVE && user.getBase().getGameMode() != GameMode.SPECTATOR)
-                && !user.isAuthorized("essentials.fly")) {
+        if (user.getBase().getGameMode() != GameMode.CREATIVE && !user.isAuthorized("essentials.fly")) {
             user.getBase().setFallDistance(0f);
             user.getBase().setAllowFlight(false);
         }
@@ -438,7 +441,6 @@ public class EssentialsPlayerListener implements Listener {
             final Location otarget = LocationUtil.getTarget(user.getBase());
 
             class DelayedClickJumpTask implements Runnable {
-
                 @Override
                 public void run() {
                     Location loc = user.getLocation();
@@ -475,7 +477,6 @@ public class EssentialsPlayerListener implements Listener {
                 used = true;
 
                 class PowerToolUseTask implements Runnable {
-
                     @Override
                     public void run() {
                         user.getServer().dispatchCommand(user.getBase(), command);
@@ -509,9 +510,7 @@ public class EssentialsPlayerListener implements Listener {
             final InventoryHolder invHolder = top.getHolder();
             if (invHolder != null && invHolder instanceof HumanEntity) {
                 final User invOwner = ess.getUser((Player) invHolder);
-                if (user.isInvSee() && (!user.isAuthorized("essentials.invsee.modify")
-                        || invOwner.isAuthorized("essentials.invsee.preventmodify")
-                        || !invOwner.getBase().isOnline())) {
+                if (user.isInvSee() && (!user.isAuthorized("essentials.invsee.modify") || invOwner.isAuthorized("essentials.invsee.preventmodify") || !invOwner.getBase().isOnline())) {
                     event.setCancelled(true);
                     refreshPlayer = user.getBase();
                 }

@@ -3,16 +3,17 @@ package com.earth2me.essentials;
 import com.earth2me.essentials.commands.IEssentialsCommand;
 import com.earth2me.essentials.signs.EssentialsSign;
 import com.earth2me.essentials.textreader.IText;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventPriority;
 
-public interface ISettings extends IConf {
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+
+public interface ISettings extends IConf {
     boolean areSignsDisabled();
 
     IText getAnnounceNewPlayerFormat();
@@ -28,6 +29,8 @@ public interface ISettings extends IConf {
     String getChatFormat(String group);
 
     int getChatRadius();
+
+    int getNearRadius();
 
     char getChatShout();
 
@@ -47,9 +50,13 @@ public interface ISettings extends IConf {
 
     Set<String> getSocialSpyCommands();
 
+    Set<String> getMuteCommands();
+
     Map<String, Object> getKit(String name);
 
     ConfigurationSection getKits();
+
+    void addKit(String name, List<String> lines, long delay);
 
     String getLocale();
 
@@ -84,6 +91,8 @@ public interface ISettings extends IConf {
     BigDecimal getStartingBalance();
 
     boolean isTeleportSafetyEnabled();
+
+    boolean isForceDisableTeleportSafety();
 
     double getTeleportCooldown();
 
@@ -173,10 +182,6 @@ public interface ISettings extends IConf {
 
     long getTpaAcceptCancellation();
 
-    boolean isMetricsEnabled();
-
-    void setMetricsEnabled(boolean metricsEnabled);
-
     long getTeleportInvulnerability();
 
     boolean isTeleportInvulnerability();
@@ -214,4 +219,8 @@ public interface ISettings extends IConf {
     boolean isCustomQuitMessage();
 
     String getCustomQuitMessage();
+
+    boolean isNotifyNoNewMail();
+
+    boolean isDropItemsIfFull();
 }

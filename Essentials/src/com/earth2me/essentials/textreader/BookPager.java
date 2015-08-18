@@ -1,13 +1,14 @@
 package com.earth2me.essentials.textreader;
 
-import static com.earth2me.essentials.I18n.tl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class BookPager {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class BookPager {
     private final transient IText text;
     final double pageMax = 254;
     final double charMax = 18.5;
@@ -107,8 +108,7 @@ public class BookPager {
                     length += (0.53 * weight);
                 } else if (letter == ' ' || letter == 't' || letter == 'I' || letter == '[' || letter == ']') {
                     length += (0.69 * weight);
-                } else if (letter == 'f' || letter == 'k' || letter == '"' || letter == '*'
-                        || letter == '(' || letter == ')' || letter == '{' || letter == '}' || letter == '<' || letter == '>') {
+                } else if (letter == 'f' || letter == 'k' || letter == '"' || letter == '*' || letter == '(' || letter == ')' || letter == '{' || letter == '}' || letter == '<' || letter == '>') {
                     length += (0.85 * weight);
                 } else if (letter == '@' || letter == '~') {
                     length += (1.2 * weight);

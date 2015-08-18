@@ -1,12 +1,13 @@
 package com.earth2me.essentials.textreader;
 
+import net.ess3.api.IEssentials;
+
 import java.io.*;
 import java.lang.ref.SoftReference;
 import java.util.*;
-import net.ess3.api.IEssentials;
+
 
 public class BookInput implements IText {
-
     private final static HashMap<String, SoftReference<BookInput>> cache = new HashMap<String, SoftReference<BookInput>>();
     private final transient List<String> lines;
     private final transient List<String> chapters;
@@ -74,14 +75,10 @@ public class BookInput implements IText {
                         }
                         if (line.length() > 0 && line.charAt(0) == '#') {
                             bookmarks.put(line.substring(1).toLowerCase(Locale.ENGLISH).replaceAll("&[0-9a-fk]", ""), lineNumber);
-                            chapters.add(line.substring(1).replace('&', '§').replace("§§", "&")
-
-
-                        );
-						}
-						lines.add(line.replace('&', '§').replace("§§", "&")
-                        );
-						lineNumber++;
+                            chapters.add(line.substring(1).replace('&', '§').replace("§§", "&"));
+                        }
+                        lines.add(line.replace('&', '§').replace("§§", "&"));
+                        lineNumber++;
                     }
                 } finally {
                     reader.close();

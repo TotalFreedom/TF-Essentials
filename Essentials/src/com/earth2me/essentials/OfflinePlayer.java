@@ -1,8 +1,5 @@
 package com.earth2me.essentials;
 
-import static com.earth2me.essentials.I18n.tl;
-import java.net.InetSocketAddress;
-import java.util.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
@@ -23,8 +20,13 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
-public class OfflinePlayer implements Player {
+import java.net.InetSocketAddress;
+import java.util.*;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class OfflinePlayer implements Player {
     private final transient Server server;
     private transient Location location = new Location(null, 0, 0, 0, 0, 0);
     private transient World world;
@@ -213,12 +215,27 @@ public class OfflinePlayer implements Player {
     }
 
     @Override
+    public List<Block> getLineOfSight(Set<Material> mat, int i) {
+        throw new UnsupportedOperationException(tl("notSupportedYet"));
+    }
+
+    @Override
     public Block getTargetBlock(HashSet<Byte> hs, int i) {
         throw new UnsupportedOperationException(tl("notSupportedYet"));
     }
 
     @Override
+    public Block getTargetBlock(Set<Material> mat, int i) {
+        throw new UnsupportedOperationException(tl("notSupportedYet"));
+    }
+
+    @Override
     public List<Block> getLastTwoTargetBlocks(HashSet<Byte> hs, int i) {
+        throw new UnsupportedOperationException(tl("notSupportedYet"));
+    }
+
+    @Override
+    public List<Block> getLastTwoTargetBlocks(Set<Material> mat, int i) {
         throw new UnsupportedOperationException(tl("notSupportedYet"));
     }
 
@@ -1180,6 +1197,11 @@ public class OfflinePlayer implements Player {
     }
 
     @Override
+    public void setSpectatorTarget(Entity entity) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public boolean isLeashed() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -1290,22 +1312,17 @@ public class OfflinePlayer implements Player {
     }
 
     @Override
-    public Spigot spigot() {
-        return base.getPlayer().spigot();
+    public Entity getSpectatorTarget() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<Block> getLineOfSight(Set<Material> arg0, int arg1) {
-        return base.getPlayer().getLineOfSight(arg0, arg1);
+    public void resetTitle() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Block getTargetBlock(Set<Material> arg0, int arg1) {
-        return base.getPlayer().getTargetBlock(arg0, arg1);
-    }
-
-    @Override
-    public List<Block> getLastTwoTargetBlocks(Set<Material> arg0, int arg1) {
-        return base.getPlayer().getLastTwoTargetBlocks(arg0, arg1);
+    public void sendTitle(String title, String subtitle) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

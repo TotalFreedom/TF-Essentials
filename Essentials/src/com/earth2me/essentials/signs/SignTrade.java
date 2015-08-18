@@ -1,20 +1,23 @@
 package com.earth2me.essentials.signs;
 
-import com.earth2me.essentials.*;
-import static com.earth2me.essentials.I18n.tl;
+import com.earth2me.essentials.ChargeException;
+import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.Trade.OverflowType;
 import com.earth2me.essentials.Trade.TradeType;
+import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.math.BigDecimal;
-import java.util.Map;
 import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
+import static com.earth2me.essentials.I18n.tl;
+
 //TODO: TL exceptions
 public class SignTrade extends EssentialsSign {
-
     public SignTrade() {
         super("Trade");
     }
@@ -25,8 +28,7 @@ public class SignTrade extends EssentialsSign {
         validateTrade(sign, 2, true, ess);
         final Trade trade = getTrade(sign, 2, AmountType.ROUNDED, true, ess);
         final Trade charge = getTrade(sign, 1, AmountType.ROUNDED, false, ess);
-        if (trade.getType() == charge.getType()
-                && (trade.getType() != TradeType.ITEM || trade.getItemStack().isSimilar(charge.getItemStack()))) {
+        if (trade.getType() == charge.getType() && (trade.getType() != TradeType.ITEM || trade.getItemStack().isSimilar(charge.getItemStack()))) {
             throw new SignException("You cannot trade for the same item type.");
         }
         trade.isAffordableFor(player);
@@ -79,10 +81,7 @@ public class SignTrade extends EssentialsSign {
 
     private Trade rechargeSign(final ISign sign, final IEssentials ess, final User player) throws SignException, ChargeException {
         final Trade trade = getTrade(sign, 2, AmountType.COST, false, ess);
-        if (trade.getItemStack() != null && player.getBase().getItemInHand() != null
-                && trade.getItemStack().getType() == player.getBase().getItemInHand().getType()
-                && trade.getItemStack().getDurability() == player.getBase().getItemInHand().getDurability()
-                && trade.getItemStack().getEnchantments().equals(player.getBase().getItemInHand().getEnchantments())) {
+        if (trade.getItemStack() != null && player.getBase().getItemInHand() != null && trade.getItemStack().getType() == player.getBase().getItemInHand().getType() && trade.getItemStack().getDurability() == player.getBase().getItemInHand().getDurability() && trade.getItemStack().getEnchantments().equals(player.getBase().getItemInHand().getEnchantments())) {
             int amount = player.getBase().getItemInHand().getAmount();
             amount -= amount % trade.getItemStack().getAmount();
             if (amount > 0) {
@@ -179,8 +178,7 @@ public class SignTrade extends EssentialsSign {
             if (amount < 1) {
                 throw new SignException(tl("moreThanZero"));
             }
-            if (!(split[1].equalsIgnoreCase("exp") || split[1].equalsIgnoreCase("xp"))
-                    && getItemStack(split[1], amount, ess).getType() == Material.AIR) {
+            if (!(split[1].equalsIgnoreCase("exp") || split[1].equalsIgnoreCase("xp")) && getItemStack(split[1], amount, ess).getType() == Material.AIR) {
                 throw new SignException(tl("moreThanZero"));
             }
             String newline = amount + " " + split[1] + ":0";
@@ -198,8 +196,7 @@ public class SignTrade extends EssentialsSign {
             if (amount < 1 || stackamount < 1) {
                 throw new SignException(tl("moreThanZero"));
             }
-            if (!(split[1].equalsIgnoreCase("exp") || split[1].equalsIgnoreCase("xp"))
-                    && getItemStack(split[1], stackamount, ess).getType() == Material.AIR) {
+            if (!(split[1].equalsIgnoreCase("exp") || split[1].equalsIgnoreCase("xp")) && getItemStack(split[1], stackamount, ess).getType() == Material.AIR) {
                 throw new SignException(tl("moreThanZero"));
             }
             sign.setLine(index, stackamount + " " + split[1] + ":" + amount);
@@ -351,8 +348,8 @@ public class SignTrade extends EssentialsSign {
         throw new SignException(tl("invalidSignLine", index + 1));
     }
 
-    public enum AmountType {
 
+    public enum AmountType {
         TOTAL,
         ROUNDED,
         COST

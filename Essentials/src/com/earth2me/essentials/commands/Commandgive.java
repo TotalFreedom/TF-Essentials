@@ -1,19 +1,22 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.MetaItemStack;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.craftbukkit.InventoryWorkaround;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.util.Locale;
-import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
-public class Commandgive extends EssentialsCommand {
+import java.util.Locale;
+import java.util.Map;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandgive extends EssentialsCommand {
     public Commandgive() {
         super("give");
     }
@@ -27,13 +30,7 @@ public class Commandgive extends EssentialsCommand {
         ItemStack stack = ess.getItemDb().get(args[1]);
 
         final String itemname = stack.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", "");
-        if (sender.isPlayer()
-                && (ess.getSettings().permissionBasedItemSpawn()
-                        ? (!ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.item-all")
-                        && !ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.item-" + itemname)
-                        && !ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.item-" + stack.getTypeId()))
-                        : (!ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.exempt")
-                        && !ess.getUser(sender.getPlayer()).canSpawnItem(stack.getTypeId())))) {
+        if (sender.isPlayer() && (ess.getSettings().permissionBasedItemSpawn() ? (!ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.item-all") && !ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.item-" + itemname) && !ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.item-" + stack.getTypeId())) : (!ess.getUser(sender.getPlayer()).isAuthorized("essentials.itemspawn.exempt") && !ess.getUser(sender.getPlayer()).canSpawnItem(stack.getTypeId())))) {
             throw new Exception(tl("cantSpawnItem", itemname));
         }
 
@@ -89,8 +86,15 @@ public class Commandgive extends EssentialsCommand {
             leftovers = InventoryWorkaround.addItems(giveTo.getBase().getInventory(), stack);
         }
 
+        boolean isDropItemsIfFull = ess.getSettings().isDropItemsIfFull();
+
         for (ItemStack item : leftovers.values()) {
-            sender.sendMessage(tl("giveSpawnFailure", item.getAmount(), itemName, giveTo.getDisplayName()));
+            if (isDropItemsIfFull) {
+                World w = giveTo.getWorld();
+                w.dropItemNaturally(giveTo.getLocation(), item);
+            } else {
+                sender.sendMessage(tl("giveSpawnFailure", item.getAmount(), itemName, giveTo.getDisplayName()));
+            }
         }
 
         giveTo.getBase().updateInventory();

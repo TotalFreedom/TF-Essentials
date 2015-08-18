@@ -1,13 +1,5 @@
 package com.earth2me.essentials.utils;
 
-import com.earth2me.essentials.Essentials;
-import static com.earth2me.essentials.I18n.tl;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import net.ess3.api.IUser;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -17,8 +9,12 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-public class LocationUtil {
+import java.util.*;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class LocationUtil {
     // The player can stand inside these materials
     public static final Set<Integer> HOLLOW_MATERIALS = new HashSet<Integer>();
     private static final HashSet<Byte> TRANSPARENT_MATERIALS = new HashSet<Byte>();
@@ -67,6 +63,7 @@ public class LocationUtil {
         TRANSPARENT_MATERIALS.add((byte) Material.WATER.getId());
         TRANSPARENT_MATERIALS.add((byte) Material.STATIONARY_WATER.getId());
     }
+
     public static final int RADIUS = 3;
     public static final Vector3D[] VOLUME;
 
@@ -150,8 +147,8 @@ public class LocationUtil {
         return is;
     }
 
-    public static class Vector3D {
 
+    public static class Vector3D {
         public int x;
         public int y;
         public int z;
@@ -172,13 +169,12 @@ public class LocationUtil {
                 }
             }
         }
-        Collections.sort(
-                pos, new Comparator<Vector3D>() {
-                    @Override
-                    public int compare(Vector3D a, Vector3D b) {
-                        return (a.x * a.x + a.y * a.y + a.z * a.z) - (b.x * b.x + b.y * b.y + b.z * b.z);
-                    }
-                });
+        Collections.sort(pos, new Comparator<Vector3D>() {
+            @Override
+            public int compare(Vector3D a, Vector3D b) {
+                return (a.x * a.x + a.y * a.y + a.z * a.z) - (b.x * b.x + b.y * b.y + b.z * b.z);
+            }
+        });
         VOLUME = pos.toArray(new Vector3D[0]);
     }
 
@@ -198,9 +194,7 @@ public class LocationUtil {
     }
 
     public static boolean isBlockUnsafeForUser(final IUser user, final World world, final int x, final int y, final int z) {
-        if (user.getBase().isOnline() && world.equals(user.getBase().getWorld())
-                && (user.getBase().getGameMode() == GameMode.CREATIVE || user.isGodModeEnabled())
-                && user.getBase().getAllowFlight()) {
+        if (user.getBase().isOnline() && world.equals(user.getBase().getWorld()) && (user.getBase().getGameMode() == GameMode.CREATIVE || user.isGodModeEnabled()) && user.getBase().getAllowFlight()) {
             return false;
         }
 
@@ -228,10 +222,7 @@ public class LocationUtil {
         if (below.getType() == Material.BED_BLOCK) {
             return true;
         }
-        if ((!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType().getId())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType().getId()))) {
-            return true;
-        }
-        return false;
+        return (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y, z).getType().getId())) || (!HOLLOW_MATERIALS.contains(world.getBlockAt(x, y + 1, z).getType().getId()));
     }
 
     // Not needed if using getSafeDestination(loc)
@@ -244,9 +235,7 @@ public class LocationUtil {
     }
 
     public static Location getSafeDestination(final IUser user, final Location loc) throws Exception {
-        if (user.getBase().isOnline() && loc.getWorld().equals(user.getBase().getWorld())
-                && (user.getBase().getGameMode() == GameMode.CREATIVE || user.isGodModeEnabled())
-                && user.getBase().getAllowFlight()) {
+        if (user.getBase().isOnline() && loc.getWorld().equals(user.getBase().getWorld()) && (user.getBase().getGameMode() == GameMode.CREATIVE || user.isGodModeEnabled()) && user.getBase().getAllowFlight()) {
             if (shouldFly(loc)) {
                 user.getBase().setFlying(true);
             }
@@ -324,6 +313,6 @@ public class LocationUtil {
             }
         }
 
-        return y < 0 ? true : false;
+        return y < 0;
     }
 }

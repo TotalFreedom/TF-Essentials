@@ -1,6 +1,5 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.craftbukkit.InventoryWorkaround;
 import org.bukkit.Material;
@@ -8,8 +7,10 @@ import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class Commandhat extends EssentialsCommand {
+import static com.earth2me.essentials.I18n.tl;
 
+
+public class Commandhat extends EssentialsCommand {
     public Commandhat() {
         super("hat");
     }

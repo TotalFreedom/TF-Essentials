@@ -1,6 +1,6 @@
 package com.earth2me.essentials.api;
 
-public interface IReload {
 
+public interface IReload {
     void onReload();
 }

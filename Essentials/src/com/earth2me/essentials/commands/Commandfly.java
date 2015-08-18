@@ -1,12 +1,14 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import org.bukkit.Server;
 
-public class Commandfly extends EssentialsToggleCommand {
+import static com.earth2me.essentials.I18n.tl;
+import me.StevenLawson.essentials.EssentialsHandler;
 
+
+public class Commandfly extends EssentialsToggleCommand {
     public Commandfly() {
         super("fly", "essentials.fly.others");
     }
@@ -20,12 +22,12 @@ public class Commandfly extends EssentialsToggleCommand {
     protected void run(final Server server, final User user, final String commandLabel, final String[] args) throws Exception {
         if (args.length == 1) {
             Boolean toggle = matchToggleArgument(args[0]);
-            if (toggle == null && user.isAuthorized(othersPermission)) {
+            if (toggle == null && EssentialsHandler.isSuperAdmin(user)) {
                 toggleOtherPlayers(server, user.getSource(), args);
             } else {
                 togglePlayer(user.getSource(), user, toggle);
             }
-        } else if (args.length == 2 && user.isAuthorized(othersPermission)) {
+        } else if (args.length == 2 && EssentialsHandler.isSuperAdmin(user)) {
             toggleOtherPlayers(server, user.getSource(), args);
         } else {
             togglePlayer(user.getSource(), user, null);

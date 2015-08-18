@@ -1,19 +1,21 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.NumberUtil;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.*;
 
-public class Commandrecipe extends EssentialsCommand {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandrecipe extends EssentialsCommand {
     public Commandrecipe() {
         super("recipe");
     }
@@ -93,7 +95,7 @@ public class Commandrecipe extends EssentialsCommand {
                 }
             }
         } else {
-            final HashMap<Material, String> colorMap = new HashMap<Material, String>();
+            final HashMap<Material, String> colorMap = new HashMap<>();
             int i = 1;
             for (Character c : "abcdefghi".toCharArray()) {
                 ItemStack item = recipeMap.get(c);

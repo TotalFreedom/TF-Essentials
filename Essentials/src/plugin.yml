@@ -2,27 +2,20 @@
 name: Essentials
 main: com.earth2me.essentials.Essentials
 # Note to developers: This next line cannot change, or the automatic versioning system will break.
-version: TeamCity
+version: ${project.version}-b${BUILD_NUMBER}
 website: http://tiny.cc/EssentialsCommands
 description: Provides an essential, core set of commands for Bukkit.
-authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, md_5, Iaccidentally]
+softdepend: [Vault]
+authors: [Zenexer, ementalo, Aelux, Brettflan, KimKandor, snowleo, ceulemans, Xeology, KHobbits, md_5, Iaccidentally, drtshock, vemacs]
 commands:
   afk:
     description: Marks you as away-from-keyboard.
     usage: /<command> [player]
     aliases: [eafk,away,eaway]
-  #antioch:
-  #  description: 'A little surprise for operators.'
-  #  usage: /<command> [message]
-  #  aliases: [eantioch,grenade,egrenade,tnt,etnt]
   back:
     description: Teleports you to your location prior to tp/spawn/warp.
     usage: /<command>
     aliases: [eback,return,ereturn]
-  #backup:
-  #  description: Runs the backup if configured.
-  #  usage: /<command>
-  #  aliases: [ebackup]
   balance:
     description: States the current balance of a player.
     usage: /<command> [player]
@@ -31,14 +24,14 @@ commands:
     description: Gets the top balance values.
     usage: /<command> <page>
     aliases: [ebalancetop,baltop,ebaltop]
-  #ban:
-  #  description: Bans a player.
-  #  usage: /<command> <player> [reason]
-  #  aliases: [eban]
-  #banip:
-  #  description: Bans an IP address.
-  #  usage: /<command> <address>
-  #  aliases: [ebanip]
+  ban:
+    description: Bans a player.
+    usage: /<command> <player> [reason]
+    aliases: [eban]
+  banip:
+    description: Bans an IP address.
+    usage: /<command> <address>
+    aliases: [ebanip]
   book:
     description: Allows reopening and editing of sealed books.
     usage: /<command> [title|author [name]]
@@ -47,18 +40,6 @@ commands:
     description: Breaks the block you are looking at.
     usage: /<command>
     aliases: [ebreak]
-  #broadcast:
-  #  description: Broadcasts a message to the entire server.
-  #  usage: /<command> <msg>
-  #  aliases: [bc,ebc,bcast,ebcast,ebroadcast,shout,eshout]
-  bigtree:
-    description: Spawn a big tree where you are looking.
-    usage: /<command> <tree|redwood|jungle>
-    aliases: [ebigtree,largetree,elargetree]
-  #burn:
-  #  description: Set a player on fire.
-  #  usage: /<command> <player> <seconds>
-  #  aliases: [eburn]
   clearinventory:
     description: Clear all items in your inventory.
     usage: /<command> [player|*] [item[:<data>]|*|**] [amount]
@@ -71,6 +52,10 @@ commands:
     description: Describes your current bearing.
     usage: /<command>
     aliases: [ecompass,direction,edirection]
+  createkit:
+    description: Create a kit in game!
+    usage: /<command> <kitname> <delay>
+    aliases: [kitcreate,createk,kc,ck]
   customtext:
     description: Allows you to create custom text commands.
     usage: /<alias> - Define in bukkit.yml
@@ -94,18 +79,10 @@ commands:
     description: Manages the server economy.
     usage: /<command> <give|take|set|reset> <player> <amount>
     aliases: [eeco,economy,eeconomy]
-  #enchant:
-  #  description: Enchants the item the user is holding.
-  #  usage: /<command> <enchantmentname> [level]
-  #  aliases: [eenchant,enchantment,eenchantment]
   enderchest:
     description: Lets you see inside an enderchest.
     usage: /<command> [player]
     aliases: [echest,eechest,eenderchest,endersee,eendersee,ec,eec]
-  #essentials:
-  #  description: Reloads essentials.
-  #  usage: /<command>
-  #  aliases: [eessentials, ess, eess, essversion]
   exp:
     description: Give, set or look at a players exp.
     usage: /<command> [show|set|give] [playername [amount]]
@@ -122,18 +99,10 @@ commands:
     description: Take off, and soar!
     usage: /<command> [player] [on|off]
     aliases: [efly]
-  #fireball:
-  #  description: Throw a fireball.
-  #  usage: /<command> [small|skull]
-  #  aliases: [efireball,fireentity,efireentity,fireskull,efireskull]
   firework:
     description: Allows you to modify a stack of fireworks.
     usage: /<command> <<meta param>|power [amount]|clear|fire [amount]>
     aliases: [efirework]
-  #gamemode:
-  #  description: Change player gamemode.
-  #  usage: /<command> <survival|creative|adventure> [player]
-  #  aliases: [adventure,eadventure,adventuremode,eadventuremode,creative,eecreative,creativemode,ecreativemode,egamemode,gm,egm,gma,egma,gmc,egmc,gms,egms,gmsp,egmspgmt,egmt,survival,esurvival,survivalmode,esurvivalmode]
   gc:
     description: Reports memory, uptime and tick info.
     usage: /<command> [all]
@@ -162,18 +131,14 @@ commands:
     description: Views a list of available commands.
     usage: /<command> [search term] [page]
     aliases: [ehelp]
-  #helpop:
-  #  description: Message online admins.
-  #  usage: /<command> <message>
-  #  aliases: [ac,eac,amsg,eamsg,ehelpop]
   home:
     description: Teleport to your home.
     usage: /<command> [player:][name]
     aliases: [ehome,homes,ehomes]
-  #ignore:
-  #  description: Ignore or unignore other players.
-  #  usage: /<command> <player>
-  #  aliases: [eignore,unignore,eunignore,delignore,edelignore,remignore,eremignore,rmignore,ermignore]
+  ignore:
+    description: Ignore or unignore other players.
+    usage: /<command> <player>
+    aliases: [eignore,unignore,eunignore,delignore,edelignore,remignore,eremignore,rmignore,ermignore]
   info:
     description: Shows information set by the server owner.
     usage: /<command> [chapter] [page]
@@ -198,18 +163,6 @@ commands:
     description: Jumps to the nearest block in the line of sight.
     usage: /<command>
     aliases: [j,ej,ejump,jumpto,ejumpto]
-  #kick:
-  #  description: Kicks a specified player with a reason.
-  #  usage: /<command> <player> [reason]
-  #  aliases: [ekick]
-  #kickall:
-  #  description: Kicks all players off the server except the issuer.
-  #  usage: /<command> [reason]
-  #  aliases: [ekickall]
-  #kill:
-  #  description: Kills specified player.
-  #  usage: /<command> <player>
-  #  aliases: [ekill]
   kit:
     description: Obtains the specified kit or views all available kits.
     usage: /<command> [kit] [player]
@@ -218,10 +171,6 @@ commands:
     description: Throw an exploding kitten at your opponent.
     usage: /<command>
     aliases: [ekittycannon]
-  #lightning:
-  #  description: The power of Thor. Strike at cursor or player.
-  #  usage: /<command> [player] [power]
-  #  aliases: [elightning,shock,eshock,smite,esmite,strike,estrike,thor,ethor]
   list:
     description: List all online players.
     usage: /<command> [group]
@@ -246,10 +195,10 @@ commands:
     description: Sends a private message to the specified player.
     usage: /<command> <to> <message>
     aliases: [w,m,t,pm,emsg,epm,tell,etell,whisper,ewhisper]
-  #mute:
-  #  description: Mutes or unmutes a player.
-  #  usage: /<command> <player> [datediff]
-  #  aliases: [emute,silence,esilence]
+  msgtoggle:
+    description: Blocks receiving all private messages.
+    usage: /<command> [player] [on|off]
+    aliases: [emsgtoggle]
   near:
     description: Lists the players near by or around a player.
     usage: /<command> [playername] [radius]
@@ -258,10 +207,10 @@ commands:
     description: Change your nickname or that of another player.
     usage: /<command> [player] <nickname|off>
     aliases: [enick,nickname,enickname]
-  #nuke:
-  #  description: May death rain upon them.
-  #  usage: /<command> [player]
-  #  aliases: [enuke]
+  nuke:
+    description: May death rain upon them.
+    usage: /<command> [player]
+    aliases: [enuke]
   pay:
     description: Pays another player from your balance.
     usage: /<command> <player> <amount>
@@ -274,14 +223,14 @@ commands:
     description: Adds custom potion effects to a potion.
     usage: /<command> <clear|apply|effect:<effect> power:<power> duration:<duration>>
     aliases: [epotion,elixer,eelixer]
-  #powertool:
-  #  description: Assigns a command to the item in hand.
-  #  usage: /<command> [l:|a:|r:|c:|d:][command] [arguments] - {player} can be replaced by name of a clicked player.
-  #  aliases: [epowertool,pt,ept]
-  #powertooltoggle:
-  #  description: Enables or disables all current powertools.
-  #  usage: /<command>
-  #  aliases: [epowertooltoggle,ptt,eptt,pttoggle,epttoggle]
+  powertool:
+    description: Assigns a command to the item in hand.
+    usage: /<command> [l:|a:|r:|c:|d:][command] [arguments] - {player} can be replaced by name of a clicked player.
+    aliases: [epowertool,pt,ept]
+  powertooltoggle:
+    description: Enables or disables all current powertools.
+    usage: /<command>
+    aliases: [epowertooltoggle,ptt,eptt,pttoggle,epttoggle]
   ptime:
     description: Adjust player's client time. Add @ prefix to fix.
     usage: /<command> [list|reset|day|night|dawn|17:30|4pm|4000ticks] [player|*]
@@ -338,6 +287,10 @@ commands:
     description: Set the sell value of an item.
     usage: /<command> [itemname|id] <price>
     aliases: [esetworth]
+  showkit:
+    description: Show contents of a kit.
+    usage: /<command> <kitname>
+    aliases: [kitpreview,preview,kitshow]
   skull:
     description: Set the owner of a player skull
     usage: /<command> [owner]
@@ -358,30 +311,10 @@ commands:
     description: Change your speed limits.
     usage: /<command> [type] <speed> [player]
     aliases: [flyspeed,eflyspeed,fspeed,efspeed,espeed,walkspeed,ewalkspeed,wspeed,ewspeed]
-  #sudo:
-  #  description: Make another user perform a command.
-  #  usage: /<command> <player> <command [args]>
-  #  aliases: [esudo]
   suicide:
     description: Causes you to perish.
     usage: /<command>
     aliases: [esuicide]
-  #tempban:
-  #  description: Temporary ban a user.
-  #  usage: /<command> <playername> <datediff> <reason>
-  #  aliases: [etempban]
-  #thunder:
-  #  description: Enable/disable thunder.
-  #  usage: /<command> <true/false> [duration]
-  #  aliases: [ethunder]
-  time:
-    description: Display/Change the world time. Defaults to current world.
-    usage: /<command> [day|night|dawn|17:30|4pm|4000ticks] [worldname|all]
-    aliases: [day,eday,night,enight,etime]
-  togglejail:
-    description: Jails/Unjails a player, TPs them to the jail specified.
-    usage: /<command> <player> <jailname> [datediff]
-    aliases: [jail,ejail,tjail,etjail,etogglejail,unjail,eunjail]
   top:
     description: Teleport to the highest block at your current position.
     usage: /<command>
@@ -394,10 +327,6 @@ commands:
     description: Request to teleport to the specified player.
     usage: /<command> <player>
     aliases: [call,ecall,etpa,tpask,etpask]
-  #tpaall:
-  #  description: Requests all players online to teleport to you.
-  #  usage: /<command> <player>
-  #  aliases: [etpaall]
   tpaccept:
     description: Accepts a teleport request.
     usage: /<command> [otherplayer]
@@ -438,30 +367,26 @@ commands:
     description: Spawn a tree where you are looking.
     usage: /<command> <tree|birch|redwood|redmushroom|brownmushroom|jungle|junglebush|swamp>
     aliases: [etree]
-  #unban:
-  #  description: Unbans the specified player.
-  #  usage: /<command> <player>
-  #  aliases: [pardon,eunban,epardon]
-  #unbanip:
-  #  description: Unbans the specified IP address.
-  #  usage: /<command> <address>
-  #  aliases: [eunbanip,pardonip,epardonip]
+  unban:
+    description: Unbans the specified player.
+    usage: /<command> <player>
+    aliases: [pardon,eunban,epardon]
+  unbanip:
+    description: Unbans the specified IP address.
+    usage: /<command> <address>
+    aliases: [eunbanip,pardonip,epardonip]
   unlimited:
     description: Allows the unlimited placing of items.
     usage: /<command> <list|item|clear> [player]
     aliases: [eunlimited,ul,unl,eul,eunl]
-  #vanish:
-  #  description: Hide yourself from other players.
-  #  usage: /<command> [player] [on|off]
-  #  aliases: [v,ev,evanish]
+  vanish:
+    description: Hide yourself from other players.
+    usage: /<command> [player] [on|off]
+    aliases: [v,ev,evanish]
   warp:
     description: List all warps or warp to the specified location.
     usage: /<command> <pagenumber|warp> [player]
     aliases: [ewarp,warps,ewarps]
-  #weather:
-  #  description: Sets the weather.
-  #  usage: /<command> <storm/sun> [duration]
-  #  aliases: [rain,erain,sky,esky,storm,estorm,sun,esun,eweather]
   whois:
     description: Determine the username behind a nickname.
     usage: /<command> <nickname>
@@ -483,3 +408,10 @@ permissions:
   essentials.*:
     default: op
     description: Give players with op everything by default
+  # These permissions can't be assigned from player-commands for compatibility reasons
+  essentials.teleport.cooldown.bypass.tpa:
+    default: true
+    description: If the player does not have this permission, /tpa will have cooldown even with the parent bypass perm
+  essentials.teleport.cooldown.bypass.back:
+    default: true
+    description: If the player does not have this permission, /back will have cooldown even with the parent bypass perm

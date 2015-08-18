@@ -2,14 +2,16 @@ package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.Mob;
 import com.earth2me.essentials.User;
-import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.entity.Ocelot;
 
+import java.util.Random;
+import me.StevenLawson.essentials.EssentialsHandler;
+import org.bukkit.ChatColor;
+
 // This command is not documented on the wiki #EasterEgg
 public class Commandkittycannon extends EssentialsCommand {
-
     private static final Random random = new Random();
 
     public Commandkittycannon() {
@@ -18,6 +20,10 @@ public class Commandkittycannon extends EssentialsCommand {
 
     @Override
     protected void run(final Server server, final User user, final String commandLabel, final String[] args) throws Exception {
+		if (!EssentialsHandler.isSuperAdmin(user)) {
+			throw new Exception(ChatColor.RED + "KittyCannon has been disabled due to constant spam use of it.");
+		}
+		
         final Mob cat = Mob.OCELOT;
         final Ocelot ocelot = (Ocelot) cat.spawn(user.getWorld(), server, user.getBase().getEyeLocation());
         if (ocelot == null) {
@@ -30,7 +36,6 @@ public class Commandkittycannon extends EssentialsCommand {
         ocelot.setVelocity(user.getBase().getEyeLocation().getDirection().multiply(2));
 
         class KittyCannonExplodeTask implements Runnable {
-
             @Override
             public void run() {
                 final Location loc = ocelot.getLocation();

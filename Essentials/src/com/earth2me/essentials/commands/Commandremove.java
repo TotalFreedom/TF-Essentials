@@ -1,20 +1,22 @@
 package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.Mob;
 import com.earth2me.essentials.User;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import org.bukkit.Chunk;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 
-// This could be rewritten in a simpler form if we made a mapping of all Entity names to their types (which would also provide possible mod support)
-public class Commandremove extends EssentialsCommand {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+// This could be rewritten in a simpler form if we made a mapping of all Entity names to their types (which would also provide possible mod support)
+
+public class Commandremove extends EssentialsCommand {
     public Commandremove() {
         super("remove");
     }
@@ -52,8 +54,8 @@ public class Commandremove extends EssentialsCommand {
     }
 
     private void parseCommand(Server server, CommandSource sender, String[] args, World world, int radius) throws Exception {
-        List<String> types = new ArrayList<String>();
-        List<String> customTypes = new ArrayList<String>();
+        List<String> types = new ArrayList<>();
+        List<String> customTypes = new ArrayList<>();
 
         if (world == null) {
             throw new Exception(tl("invalidWorld"));
@@ -86,8 +88,8 @@ public class Commandremove extends EssentialsCommand {
             radius *= radius;
         }
 
-        ArrayList<ToRemove> removeTypes = new ArrayList<ToRemove>();
-        ArrayList<Mob> customRemoveTypes = new ArrayList<Mob>();
+        ArrayList<ToRemove> removeTypes = new ArrayList<>();
+        ArrayList<Mob> customRemoveTypes = new ArrayList<>();
 
         for (String s : types) {
             removeTypes.add(ToRemove.valueOf(s));
@@ -122,14 +124,12 @@ public class Commandremove extends EssentialsCommand {
                 for (ToRemove toRemove : removeTypes) {
 
                     // We should skip any TAMED animals unless we are specifially targetting them.
-                    if (e instanceof Tameable && ((Tameable) e).isTamed()
-                            && !removeTypes.contains(ToRemove.TAMED)) {
+                    if (e instanceof Tameable && ((Tameable) e).isTamed() && !removeTypes.contains(ToRemove.TAMED)) {
                         continue;
                     }
 
                     // We should skip any NAMED animals unless we are specifially targetting them.
-                    if (e instanceof LivingEntity && ((LivingEntity) e).getCustomName() != null
-                            && !removeTypes.contains(ToRemove.NAMED)) {
+                    if (e instanceof LivingEntity && e.getCustomName() != null && !removeTypes.contains(ToRemove.NAMED)) {
                         continue;
                     }
 
@@ -141,7 +141,7 @@ public class Commandremove extends EssentialsCommand {
                             }
                             break;
                         case NAMED:
-                            if (e instanceof LivingEntity && ((LivingEntity) e).getCustomName() != null) {
+                            if (e instanceof LivingEntity && e.getCustomName() != null) {
                                 e.remove();
                                 removed++;
                             }
@@ -215,8 +215,7 @@ public class Commandremove extends EssentialsCommand {
                             }
                             break;
                         case MOBS:
-                            if (e instanceof Animals || e instanceof NPC || e instanceof Snowman || e instanceof WaterMob
-                                    || e instanceof Monster || e instanceof ComplexLivingEntity || e instanceof Flying || e instanceof Slime || e instanceof Ambient) {
+                            if (e instanceof Animals || e instanceof NPC || e instanceof Snowman || e instanceof WaterMob || e instanceof Monster || e instanceof ComplexLivingEntity || e instanceof Flying || e instanceof Slime || e instanceof Ambient) {
                                 e.remove();
                                 removed++;
                             }
@@ -243,8 +242,8 @@ public class Commandremove extends EssentialsCommand {
         sender.sendMessage(tl("removed", removed));
     }
 
-    private enum ToRemove {
 
+    private enum ToRemove {
         DROPS,
         ARROWS,
         BOATS,

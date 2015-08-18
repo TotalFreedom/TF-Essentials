@@ -1,13 +1,15 @@
 package com.earth2me.essentials.commands;
 
-import static com.earth2me.essentials.I18n.tl;
 import com.earth2me.essentials.User;
-import java.util.Locale;
 import org.bukkit.Server;
 import org.bukkit.inventory.ItemStack;
 
-public class Commandmore extends EssentialsCommand {
+import java.util.Locale;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public class Commandmore extends EssentialsCommand {
     public Commandmore() {
         super("more");
     }
@@ -18,17 +20,11 @@ public class Commandmore extends EssentialsCommand {
         if (stack == null) {
             throw new Exception(tl("cantSpawnItem", "Air"));
         }
-        if (stack.getAmount() >= ((user.isAuthorized("essentials.oversizedstacks"))
-                ? ess.getSettings().getOversizedStackSize() : stack.getMaxStackSize())) {
+        if (stack.getAmount() >= ((user.isAuthorized("essentials.oversizedstacks")) ? ess.getSettings().getOversizedStackSize() : stack.getMaxStackSize())) {
             throw new Exception(tl("fullStack"));
         }
         final String itemname = stack.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", "");
-        if (ess.getSettings().permissionBasedItemSpawn()
-                ? (!user.isAuthorized("essentials.itemspawn.item-all")
-                && !user.isAuthorized("essentials.itemspawn.item-" + itemname)
-                && !user.isAuthorized("essentials.itemspawn.item-" + stack.getTypeId()))
-                : (!user.isAuthorized("essentials.itemspawn.exempt")
-                && !user.canSpawnItem(stack.getTypeId()))) {
+        if (ess.getSettings().permissionBasedItemSpawn() ? (!user.isAuthorized("essentials.itemspawn.item-all") && !user.isAuthorized("essentials.itemspawn.item-" + itemname) && !user.isAuthorized("essentials.itemspawn.item-" + stack.getTypeId())) : (!user.isAuthorized("essentials.itemspawn.exempt") && !user.canSpawnItem(stack.getTypeId()))) {
             throw new Exception(tl("cantSpawnItem", itemname));
         }
         if (user.isAuthorized("essentials.oversizedstacks")) {

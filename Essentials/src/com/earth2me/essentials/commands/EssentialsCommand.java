@@ -1,19 +1,24 @@
 package com.earth2me.essentials.commands;
 
-import com.earth2me.essentials.*;
-import static com.earth2me.essentials.I18n.tl;
+import com.earth2me.essentials.CommandSource;
+import com.earth2me.essentials.IEssentialsModule;
+import com.earth2me.essentials.Trade;
+import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.FormatUtil;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
-import java.util.logging.Logger;
 import net.ess3.api.IEssentials;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
-public abstract class EssentialsCommand implements IEssentialsCommand {
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
+import java.util.logging.Logger;
 
+import static com.earth2me.essentials.I18n.tl;
+
+
+public abstract class EssentialsCommand implements IEssentialsCommand {
     private final transient String name;
     protected transient IEssentials ess;
     protected transient IEssentialsModule module;
@@ -135,11 +140,7 @@ public abstract class EssentialsCommand implements IEssentialsCommand {
     }
 
     @Override
-    public final void run(final Server server,
-            final User user,
-            final String commandLabel,
-            final Command cmd,
-            final String[] args) throws Exception {
+    public final void run(final Server server, final User user, final String commandLabel, final Command cmd, final String[] args) throws Exception {
         final Trade charge = new Trade(this.getName(), ess);
         charge.isAffordableFor(user);
         run(server, user, commandLabel, args);
