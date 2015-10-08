@@ -406,10 +406,10 @@ commands:
     description: Request that the specified player teleport to you.
     usage: /<command> <player>
     aliases: [etpahere]
-  tpall:
-    description: Teleport all online players to another player.
-    usage: /<command> <player>
-    aliases: [etpall]
+ # tpall:
+ #   description: Teleport all online players to another player.
+ #   usage: /<command> <player>
+ #   aliases: [etpall]
   tpdeny:
     description: Reject a teleport request.
     usage: /<command>
