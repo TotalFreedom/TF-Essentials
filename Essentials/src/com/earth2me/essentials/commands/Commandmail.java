@@ -110,7 +110,6 @@ public class Commandmail extends EssentialsCommand {
         }
         throw new NotEnoughArgumentsException();
     }
-    
         @Override
         public void run() {
             for (UUID userid : ess.getUserMap().getAllUniqueUsers()) {
