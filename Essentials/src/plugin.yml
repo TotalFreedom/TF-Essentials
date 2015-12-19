@@ -228,7 +228,7 @@ commands:
     aliases: [elist,online,eonline,playerlist,eplayerlist,plist,eplist,who,ewho]
   mail:
     description: Manages inter-player, intra-server mail.
-    usage: /<command> [read|clear|send [to] [message]|sendall [message]]
+    usage: /<command> [read|clear|send [to] [message]]
     aliases: [email,eemail,memo,ememo]
   me:
     description: Describes an action in the context of the player.
