@@ -76,14 +76,6 @@ public class Commandmail extends EssentialsCommand {
             user.sendMessage(mail);
             return;
         }
-        if (args.length > 1 && "sendall".equalsIgnoreCase(args[0])) {
-            if (!user.isAuthorized("essentials.mail.sendall")) {
-                throw new Exception(tl("noPerm", "essentials.mail.sendall"));
-            }
-            ess.runTaskAsynchronously(new SendAll(tl("mailFormat", user.getName(), FormatUtil.stripFormat(getFinalArg(args, 1)))));
-            user.sendMessage(tl("mailSent"));
-            return;
-        }
         if (args.length >= 1 && "clear".equalsIgnoreCase(args[0])) {
             user.setMails(null);
             user.sendMessage(tl("mailCleared"));
