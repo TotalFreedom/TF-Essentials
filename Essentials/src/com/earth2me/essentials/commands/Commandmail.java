@@ -98,10 +98,6 @@ public class Commandmail extends EssentialsCommand {
             u.addMail(tl("mailFormat", "Server", getFinalArg(args, 2)));
             sender.sendMessage(tl("mailSent"));
             return;
-        } else if (args.length >= 2 && "sendall".equalsIgnoreCase(args[0])) {
-            ess.runTaskAsynchronously(new SendAll(tl("mailFormat", "Server", getFinalArg(args, 1))));
-            sender.sendMessage(tl("mailSent"));
-            return;
         } else if (args.length >= 2) {
             //allow sending from console without "send" argument, since it's the only thing the console can do
             User u = getPlayer(server, args[0], true, true);
@@ -113,24 +109,5 @@ public class Commandmail extends EssentialsCommand {
             return;
         }
         throw new NotEnoughArgumentsException();
-    }
-
-    private class SendAll implements Runnable {
-
-        String message;
-
-        public SendAll(String message) {
-            this.message = message;
-        }
-
-        @Override
-        public void run() {
-            for (UUID userid : ess.getUserMap().getAllUniqueUsers()) {
-                User user = ess.getUserMap().getUser(userid);
-                if (user != null) {
-                    user.addMail(message);
-                }
-            }
-        }
     }
 }
