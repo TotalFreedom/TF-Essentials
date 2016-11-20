@@ -12,6 +12,10 @@ import java.util.logging.Logger;
 import org.bukkit.*;
 import org.bukkit.Warning.WarningState;
 import org.bukkit.World.Environment;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarFlag;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
@@ -23,6 +27,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.help.HelpMap;
 import org.bukkit.inventory.*;
 import org.bukkit.map.MapView;
@@ -918,12 +923,6 @@ public class FakeServer implements Server
 	}
 
 	@Override
-	public boolean useExactLoginLocation()
-	{
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
 	public int getTicksPerAnimalSpawns()
 	{
 		throw new UnsupportedOperationException("Not supported yet.");
@@ -1136,6 +1135,17 @@ public class FakeServer implements Server
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
+	@Override
+	public ChunkGenerator.ChunkData createChunkData(World world)
+	{
+		return null;
+	}
+
+	@Override
+	public BossBar createBossBar(String title, BarColor color, BarStyle style, BarFlag... flags)
+	{
+		return null;
+	}
 
 	class FakePluginManager implements PluginManager
 	{
