@@ -1147,6 +1147,12 @@ public class FakeServer implements Server
 		return null;
 	}
 
+	@Override
+	public Merchant createMerchant(String title)
+	{
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 	class FakePluginManager implements PluginManager
 	{
 		ArrayList<RegisteredListener> listeners = new ArrayList<RegisteredListener>();
