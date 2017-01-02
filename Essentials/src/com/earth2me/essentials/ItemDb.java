@@ -171,11 +171,11 @@ public class ItemDb implements IConf, net.ess3.api.IItemDb
 
 		if (args.length < 1)
 		{
-			is.add(user.getBase().getItemInHand());
+			is.add(user.getBase().getItemInHand().clone());
 		}
 		else if (args[0].equalsIgnoreCase("hand"))
 		{
-			is.add(user.getBase().getItemInHand());
+			is.add(user.getBase().getItemInHand().clone());
 		}
 		else if (args[0].equalsIgnoreCase("inventory") || args[0].equalsIgnoreCase("invent") || args[0].equalsIgnoreCase("all"))
 		{
@@ -185,7 +185,7 @@ public class ItemDb implements IConf, net.ess3.api.IItemDb
 				{
 					continue;
 				}
-				is.add(stack);
+				is.add(stack.clone());
 			}
 		}
 		else if (args[0].equalsIgnoreCase("blocks"))
@@ -196,7 +196,7 @@ public class ItemDb implements IConf, net.ess3.api.IItemDb
 				{
 					continue;
 				}
-				is.add(stack);
+				is.add(stack.clone());
 			}
 		}
 		else

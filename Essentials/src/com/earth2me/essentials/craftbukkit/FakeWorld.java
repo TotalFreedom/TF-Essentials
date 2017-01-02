@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Consumer;
 import org.bukkit.util.Vector;
 
 
@@ -841,6 +842,12 @@ public class FakeWorld implements World
 
 	@Override
 	public FallingBlock spawnFallingBlock(Location location, MaterialData data) throws IllegalArgumentException
+	{
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public <T extends Entity> T spawn(Location lctn, Class<T> type, Consumer<T> cnsmr) throws IllegalArgumentException
 	{
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
