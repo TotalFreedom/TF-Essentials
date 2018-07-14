@@ -26,10 +26,6 @@ public class Commandtpahere extends EssentialsCommand
 		{
 			throw new NotEnoughArgumentsException();
 		}
-		if (!player.isTeleportEnabled())
-		{
-			throw new Exception(tl("teleportDisabled", player.getDisplayName()));
-		}
 		if (user.getWorld() != player.getWorld() && ess.getSettings().isWorldTeleportPermissions()
 			&& !user.isAuthorized("essentials.worlds." + user.getWorld().getName()))
 		{
